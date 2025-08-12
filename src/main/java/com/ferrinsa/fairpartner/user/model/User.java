@@ -11,11 +11,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String email;
@@ -26,8 +25,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String name, String email, String password, LocalDate registrationDate) {
-        this.id = id;
+    public User(String name, String email, String password, LocalDate registrationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
