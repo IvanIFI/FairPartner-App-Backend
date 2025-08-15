@@ -1,11 +1,6 @@
 package com.ferrinsa.fairpartner.user.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,28 +10,33 @@ import java.util.Objects;
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", insertable = false, updatable = false)
     private LocalDate registrationDate;
 
     public User() {
     }
 
-    public User(String name, String email, String password, LocalDate registrationDate) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.registrationDate = registrationDate;
     }
 
-    public int getId() {
+    @PrePersist
+    public void prePersist() {
+        this.registrationDate = LocalDate.now();
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

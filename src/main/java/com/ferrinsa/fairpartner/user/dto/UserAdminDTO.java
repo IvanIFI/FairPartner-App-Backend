@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 public record UserAdminDTO(
-        @NotBlank int id,
+        @NotBlank Long id,
         @NotBlank String name,
         @NotBlank @Email String email,
         @NotBlank String password,

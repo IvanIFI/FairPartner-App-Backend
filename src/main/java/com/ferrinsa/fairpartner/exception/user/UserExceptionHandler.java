@@ -20,4 +20,22 @@ public class UserExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(UserLoginFailedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ProblemDetail handleUserLoginFailedException(UserLoginFailedException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        problemDetail.setTitle("Autenticación fallida");
+        problemDetail.setType(URI.create("https://ferrinsa.api/errors/" + ex.getCode()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(UserEmailAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ProblemDetail handleUserEmailAlreadyExistsException(UserEmailAlreadyExistsException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("El email ya existe");
+        problemDetail.setType(URI.create("https://ferrinsa.api/errors/" + ex.getCode()));
+        return problemDetail;
+    }
+
 }

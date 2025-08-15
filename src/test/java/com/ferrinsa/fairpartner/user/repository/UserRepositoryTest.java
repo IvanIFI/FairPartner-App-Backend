@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +21,7 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        User user = new User(NAME, EMAIL, "pswd", LocalDate.of(2024, 1, 1));
+        User user = new User(NAME, EMAIL, "pswd");
         userRepository.save(user);
     }
 
@@ -36,5 +35,17 @@ class UserRepositoryTest {
     @DisplayName("User not found by email")
     void findByEmail_returnsEmpty_whenEmailDoesNotMatch() {
         assertTrue(userRepository.findByEmail(BAD_EMAIL).isEmpty());
+    }
+
+    @Test
+    @DisplayName("Email not exists")
+    void existsByEmail_returnsFalse_whenEmailNotExists() {
+        assertFalse(userRepository.existsByEmail(BAD_EMAIL));
+    }
+
+    @Test
+    @DisplayName("Email exists")
+    void existsByEmail_returnsTrue_whenEmailExists() {
+        assertTrue(userRepository.existsByEmail(EMAIL));
     }
 }
