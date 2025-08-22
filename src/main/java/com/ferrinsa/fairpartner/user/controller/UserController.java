@@ -1,18 +1,17 @@
 package com.ferrinsa.fairpartner.user.controller;
 
-import com.ferrinsa.fairpartner.user.dto.NewUserDTO;
-import com.ferrinsa.fairpartner.user.dto.UserAdminDTO;
-import com.ferrinsa.fairpartner.user.dto.LoginRequestDTO;
-import com.ferrinsa.fairpartner.user.dto.UserLoginResponseDTO;
+import com.ferrinsa.fairpartner.user.dto.UserAdminResponseDTO;
+import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
+import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.user.service.UserService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @Validated
@@ -22,38 +21,30 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService service) {
         this.userService = service;
     }
 
-    //ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
-    public List<UserAdminDTO> getAllUsers() {
+    public List<UserAdminResponseDTO> getAllUsers() {
         return userService.findAllUsers()
                 .stream()
-                .map(UserAdminDTO::of)
+                .map(UserAdminResponseDTO::of)
                 .toList();
     }
 
-    //ADMIN cambiar a email or id or name??
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{email}")
-    public UserAdminDTO getUserByEmail(@PathVariable @Email String email) {
-        return UserAdminDTO.of(userService.findUserByEmail(email));
+    public UserAdminResponseDTO getUserByEmail(@PathVariable @Email String email) {
+        return UserAdminResponseDTO.of(userService.findUserByEmail(email));
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<UserLoginResponseDTO> loginUserByEmail(@Valid @RequestBody LoginRequestDTO loginRequestDTO){
-        UserLoginResponseDTO userLoginResponseDTO = userService.loginValidateUser(loginRequestDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(userLoginResponseDTO);
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public ResponseEntity<UserResponseDTO> me(@AuthenticationPrincipal UserEntity user){
+        return ResponseEntity.ok(UserResponseDTO.of(user));
     }
-
-    @PostMapping("/auth/register")
-    public ResponseEntity<UserLoginResponseDTO> createNewUser (@Valid @RequestBody NewUserDTO newUserDTO){
-        UserLoginResponseDTO userLoginResponseDTO = userService.createNewUser(newUserDTO);
-        return ResponseEntity
-                .created(URI.create("/api/users/" + userLoginResponseDTO.id()))
-                .body(userLoginResponseDTO);
-    }
-
 
 }

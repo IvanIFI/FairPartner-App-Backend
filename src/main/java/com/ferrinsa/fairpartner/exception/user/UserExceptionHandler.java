@@ -11,12 +11,14 @@ import java.net.URI;
 @RestControllerAdvice
 public class UserExceptionHandler {
 
+    private static final String ERROR_TYPE_BASE_URI = "https://ferrinsa.api/errors/user/";
+
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ProblemDetail handleUserNotFoundException(UserNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle("Usuario no encontrado");
-        problemDetail.setType(URI.create("https://ferrinsa.api/errors/" + ex.getCode()));
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }
 
@@ -25,7 +27,7 @@ public class UserExceptionHandler {
     public ProblemDetail handleUserLoginFailedException(UserLoginFailedException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
         problemDetail.setTitle("Autenticación fallida");
-        problemDetail.setType(URI.create("https://ferrinsa.api/errors/" + ex.getCode()));
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI+ ex.getCode()));
         return problemDetail;
     }
 
@@ -34,7 +36,7 @@ public class UserExceptionHandler {
     public ProblemDetail handleUserEmailAlreadyExistsException(UserEmailAlreadyExistsException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setTitle("El email ya existe");
-        problemDetail.setType(URI.create("https://ferrinsa.api/errors/" + ex.getCode()));
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }
 

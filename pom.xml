@@ -12,7 +12,7 @@
     <artifactId>fairpartner</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>FairPartner-API</name>
-    <description>API to share and manage expenses</description>
+    <description>API to share and manage expenses and pantries</description>
     <url/>
     <licenses>
         <license/>
@@ -80,7 +80,25 @@
             <version>2.8.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.7</version>
+            <scope>runtime</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.7</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
