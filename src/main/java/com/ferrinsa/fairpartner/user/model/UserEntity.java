@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.user.model;
 
-import com.ferrinsa.fairpartner.security.role.model.Role;
+import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +27,7 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private Set<RoleEntity> roles;
 
     public UserEntity() {
     }
@@ -75,11 +75,11 @@ public class UserEntity implements UserDetails {
         this.registrationDate = registrationDate;
     }
 
-    public Set<Role> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
 

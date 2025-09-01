@@ -47,7 +47,7 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-    // NOTE: Es la manera mas moderna de hacerlo, spring lo hace por ti cogiendo los Beans del encode y el userdetials
+    // FIXME: Es la manera mas moderna de hacerlo, spring lo hace por ti cogiendo los Beans del encode y el userdetials
     /*
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

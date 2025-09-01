@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.user.dto;
 
-import com.ferrinsa.fairpartner.security.role.model.Role;
+import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public record UserAdminResponseDTO(
                 user.getEmail(),
                 user.getPassword(),
                 user.getRegistrationDate(),
-                user.getRoles().stream().map(Role::getRoleName).toList());
+                user.getRoles().stream().map(RoleEntity::getRoleName).toList());
     }
 
 

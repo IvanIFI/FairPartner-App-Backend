@@ -40,4 +40,13 @@ public class UserExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(UserFailedUpdateProfileException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ProblemDetail handleUserFailedUpdateProfileException(UserFailedUpdateProfileException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Parámetros de actualización inválidos");
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
+        return problemDetail;
+    }
+
 }

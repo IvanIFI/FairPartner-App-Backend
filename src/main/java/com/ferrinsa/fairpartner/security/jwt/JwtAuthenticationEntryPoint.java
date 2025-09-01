@@ -30,6 +30,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String method = request.getMethod();
         String authHeader = request.getHeader("Authorization");
 
+
+        //FIXME: una vez en produccion quitar este log de la consola, ¡¡solo para debug!!
         log.warn("Intento de acceso no autorizado. IP=[{}], Método=[{}], Path=[{}], AuthHeader=[{}], Causa=[{}]",
                 ip, method, path, authHeader != null ? "Presente" : "No presente", authException.getMessage());
 

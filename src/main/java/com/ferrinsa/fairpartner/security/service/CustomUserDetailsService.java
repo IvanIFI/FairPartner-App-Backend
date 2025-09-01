@@ -23,6 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserById(Long id){
-        return userService.findById(id);
+        return userService.findUserById(id);
     }
 }

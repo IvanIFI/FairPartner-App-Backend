@@ -1,14 +1,18 @@
 package com.ferrinsa.fairpartner.user.service;
 
 import com.ferrinsa.fairpartner.exception.user.UserEmailAlreadyExistsException;
+import com.ferrinsa.fairpartner.exception.user.UserFailedUpdateProfileException;
 import com.ferrinsa.fairpartner.exception.user.UserNotFoundException;
 import com.ferrinsa.fairpartner.security.role.service.RoleService;
 import com.ferrinsa.fairpartner.user.dto.RegisterUserRequestDTO;
+import com.ferrinsa.fairpartner.user.dto.UpdateUserEmailRequestDTO;
+import com.ferrinsa.fairpartner.user.dto.UpdateUserNameRequestDTO;
 import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.security.role.values.UserRoles;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +39,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserEntity findById(Long id) {
+    public UserEntity findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(Long.toString(id)));
     }
@@ -58,6 +62,40 @@ public class UserService {
         userRepository.save(newUser);
 
         return UserResponseDTO.of(newUser);
+    }
+
+
+    // TODO: Falta testear metodos a partir de aquí
+
+    @Transactional
+    public UserResponseDTO updateNameUser(UserEntity authUser, UpdateUserNameRequestDTO updateUserNameRequestDTO) {
+        boolean hasName = updateUserNameRequestDTO.name() != null && !updateUserNameRequestDTO.name().isBlank();
+
+        if(!hasName){
+            throw new UserFailedUpdateProfileException("El nombre no puede estar vacío");
+        } else {
+            authUser.setName(updateUserNameRequestDTO.name());
+        }
+
+        return UserResponseDTO.of(authUser);
+    }
+
+    @Transactional
+    public UserResponseDTO updateEmailUser(UserEntity authUser, UpdateUserEmailRequestDTO updateUserEmailRequestDTO) {
+        boolean emailAlreadyExists = userRepository.findByEmail(updateUserEmailRequestDTO.email()).isPresent();
+
+        if(emailAlreadyExists) {
+            throw new UserEmailAlreadyExistsException();
+        } else {
+            authUser.setEmail(updateUserEmailRequestDTO.email());
+        }
+
+        return UserResponseDTO.of(authUser);
+    }
+
+    @Transactional
+    public void deleteUser(UserEntity authUser){
+        userRepository.delete(authUser);
     }
 
 

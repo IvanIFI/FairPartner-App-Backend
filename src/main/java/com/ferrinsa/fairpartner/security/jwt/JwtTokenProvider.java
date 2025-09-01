@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.security.jwt;
 
-import com.ferrinsa.fairpartner.security.role.model.Role;
+import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -20,10 +20,15 @@ public class JwtTokenProvider {
 
     private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    @Value("${app.security.jwt.secret}")
-    private String jwtSecret;
-    @Value("${app.security.jwt.expiration}")
-    private Long jwtDurationSeconds;
+    private final String jwtSecret;
+    private final Long jwtDurationSeconds;
+
+    public JwtTokenProvider(
+            @Value("${app.security.jwt.secret}") String jwtSecret,
+            @Value("${app.security.jwt.expiration}") Long jwtDurationSeconds) {
+        this.jwtSecret = jwtSecret;
+        this.jwtDurationSeconds = jwtDurationSeconds;
+    }
 
     public String generateToken(Authentication authentication) {
 
@@ -36,7 +41,7 @@ public class JwtTokenProvider {
                 .expiration(new Date(System.currentTimeMillis() + (jwtDurationSeconds * 1000)))
                 .claim("name", user.getName())
                 .claim("email", user.getEmail())
-                .claim("roles", user.getRoles().stream().map(Role::getRoleName).toList())
+                .claim("roles", user.getRoles().stream().map(RoleEntity::getRoleName).toList())
                 .signWith(key)
                 .compact();
     }
