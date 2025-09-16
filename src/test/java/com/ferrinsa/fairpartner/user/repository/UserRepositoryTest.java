@@ -28,25 +28,25 @@ class UserRepositoryTest {
 
     @Test
     @DisplayName("User found by email")
-    void findByEmail_returnsUser_whenEmailMatches() {
+    void findByEmail_returnUser_whenEmailMatches() {
         assertEquals(EMAIL_1, userRepository.findByEmail(EMAIL_1).orElseThrow().getEmail());
     }
 
     @Test
     @DisplayName("User not found by email")
-    void findByEmail_returnsEmpty_whenEmailDoesNotMatch() {
+    void findByEmail_returnEmpty_whenEmailDoesNotMatch() {
         assertTrue(userRepository.findByEmail(INVALID_EMAIL).isEmpty());
     }
 
     @Test
     @DisplayName("Email not exists")
-    void existsByEmail_returnsFalse_whenEmailNotExists() {
+    void existsByEmail_returnFalse_whenEmailNotExists() {
         assertFalse(userRepository.existsByEmail(INVALID_EMAIL));
     }
 
     @Test
     @DisplayName("Email exists")
-    void existsByEmail_returnsTrue_whenEmailExists() {
+    void existsByEmail_returnTrue_whenEmailExists() {
         assertTrue(userRepository.existsByEmail(EMAIL_1));
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 public class UserAuthTestFactory {
     public static UsernamePasswordAuthenticationToken buildUserPassAuthToken (){
-        UserEntity user = UserTestFactory.buildTestUser();
+        UserEntity user = UserTestFactory.buildTestUser1();
         return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
     }
 }

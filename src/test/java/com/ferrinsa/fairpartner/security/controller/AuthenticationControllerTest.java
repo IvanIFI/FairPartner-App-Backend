@@ -23,7 +23,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.DtosTestConstatns.*;
+import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.ExceptionsTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
@@ -44,16 +44,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class AuthenticationControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @MockitoBean
-    private AuthenticationService authenticationService;
-    @MockitoBean
-    private UserService userService;
-    @MockitoBean
-    private AuthenticationManager authenticationManager;
-    @MockitoBean
-    private JwtTokenProvider jwtTokenProvider;
+    @Autowired private MockMvc mockMvc;
+    @MockitoBean private AuthenticationService authenticationService;
+    @MockitoBean private UserService userService;
+    @MockitoBean private AuthenticationManager authenticationManager;
+    @MockitoBean private JwtTokenProvider jwtTokenProvider;
 
     @Test
     @DisplayName("/auth/login - Login successful")
@@ -91,7 +86,7 @@ class AuthenticationControllerTest {
 
     @Test
     @DisplayName("/auth/register - Sign up successful")
-    void registerUser_returnCreated201_whenSignUpIsSuccessful() throws Exception {
+    void registerUser_returnOk200_whenSignUpIsSuccessful() throws Exception {
         when(userService.registerNewUser(REGISTER_REQUEST_DTO)).thenReturn(USER_RESPONSE_DTO);
         when(authenticationService.authenticateByEmail(LOGIN_REQUEST_DTO)).thenReturn(LOGIN_RESPONSE_DTO);
 

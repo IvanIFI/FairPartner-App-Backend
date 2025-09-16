@@ -18,7 +18,8 @@ public class UserEntity implements UserDetails {
     private String name;
     @Column(unique = true)
     private String email;
-    private String password;
+    @Column(name = "password_hash")
+    private String passwordHash;
     @Column(name = "registration_date", insertable = false, updatable = false)
     private LocalDate registrationDate;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -32,10 +33,10 @@ public class UserEntity implements UserDetails {
     public UserEntity() {
     }
 
-    public UserEntity(String name, String email, String password) {
+    public UserEntity(String name, String email, String passwordHash) {
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.roles = new HashSet<>();
     }
 
@@ -63,8 +64,8 @@ public class UserEntity implements UserDetails {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public LocalDate getRegistrationDate() {
@@ -90,7 +91,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.passwordHash;
     }
 
     @Override

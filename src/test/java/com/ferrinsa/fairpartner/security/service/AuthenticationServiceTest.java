@@ -37,7 +37,7 @@ class AuthenticationServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = UserTestFactory.buildTestUser();
+        user = UserTestFactory.buildTestUser1();
         authentication = UserAuthTestFactory.buildUserPassAuthToken();
     }
 
@@ -57,7 +57,7 @@ class AuthenticationServiceTest {
 
     @Test
     @DisplayName("Failed Authentication")
-    void authenticateByEmail_return401_whenAuthenticationIsFailed() {
+    void authenticateByEmail_throwBadCredentialsException_whenAuthenticationFails() {
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new BadCredentialsException("Bad credentials"));
 

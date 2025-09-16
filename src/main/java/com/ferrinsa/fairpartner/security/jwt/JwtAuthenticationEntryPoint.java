@@ -1,7 +1,6 @@
 package com.ferrinsa.fairpartner.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -30,10 +29,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String method = request.getMethod();
         String authHeader = request.getHeader("Authorization");
 
-
         //FIXME: una vez en produccion quitar este log de la consola, ¡¡solo para debug!!
         log.warn("Intento de acceso no autorizado. IP=[{}], Método=[{}], Path=[{}], AuthHeader=[{}], Causa=[{}]",
                 ip, method, path, authHeader != null ? "Presente" : "No presente", authException.getMessage());
+        //FIXME: //////////////////////////////////////////////////////////////////////////
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
         problemDetail.setTitle("Acceso denegado");

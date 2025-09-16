@@ -83,7 +83,7 @@ class SecurityIntegrationTest {
     }
 
     @Test
-    @DisplayName("/users/email - Unauthorized user")
+    @DisplayName("/auth/login - Unauthorized user")
     void onlyAccessAdminEndpoint_returnUnauthorized401_whenUnauthorized() throws Exception {
         MvcResult loginResult = mockMvc.perform(post("/auth/login")
                         .accept(MediaType.APPLICATION_JSON)
@@ -95,14 +95,15 @@ class SecurityIntegrationTest {
         String responseBody = loginResult.getResponse().getContentAsString();
         String tokenUSER = JsonPath.parse(responseBody).read("$.token");
 
-        mockMvc.perform(get("/users/email")
-                        .param("email",EMAIL_1)
+        mockMvc.perform(get("/admin/users/email")
+                        .param("email", EMAIL_1)
                         .header("Authorization", "Bearer " + tokenUSER))
                 .andExpect(status().isForbidden());
+
     }
 
     @Test
-    @DisplayName("/users/email - Authorized user")
+    @DisplayName("/auth/login - Authorized user")
     void onlyAccessAdminEndpoint_returnOk200_whenUserIsAuthorized() throws Exception {
         MvcResult loginResult = mockMvc.perform(post("/auth/login")
                         .accept(MediaType.APPLICATION_JSON)
@@ -114,7 +115,7 @@ class SecurityIntegrationTest {
         String responseBody = loginResult.getResponse().getContentAsString();
         String tokenAdmin = JsonPath.parse(responseBody).read("$.token");
 
-        mockMvc.perform(get("/users/email")
+        mockMvc.perform(get("/admin/users/email")
                         .param("email",EMAIL_1)
                         .header("Authorization", "Bearer " + tokenAdmin))
                 .andExpect(status().isOk())
@@ -131,7 +132,5 @@ class SecurityIntegrationTest {
                 .andExpect(jsonPath("$.detail").value(ENTRY_POINT_DETAIL))
                 .andExpect(jsonPath("$.properties.path").value("/users/me"));
     }
-
-
 
 }

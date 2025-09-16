@@ -1,18 +1,12 @@
 package com.ferrinsa.fairpartner.user.service;
 
-import com.ferrinsa.fairpartner.exception.user.UserEmailAlreadyExistsException;
-import com.ferrinsa.fairpartner.exception.user.UserFailedUpdateProfileException;
-import com.ferrinsa.fairpartner.exception.user.UserNotFoundException;
+import com.ferrinsa.fairpartner.exception.user.*;
 import com.ferrinsa.fairpartner.security.role.service.RoleService;
-import com.ferrinsa.fairpartner.user.dto.RegisterUserRequestDTO;
-import com.ferrinsa.fairpartner.user.dto.UpdateUserEmailRequestDTO;
-import com.ferrinsa.fairpartner.user.dto.UpdateUserNameRequestDTO;
-import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
+import com.ferrinsa.fairpartner.user.dto.*;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.security.role.values.UserRoles;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
+    public static final String EMPTY_NAME = "El nombre no puede estar vacío";
 
     private final UserRepository userRepository;
     private final RoleService roleService;
@@ -57,47 +54,87 @@ public class UserService {
         UserEntity newUser = new UserEntity();
         newUser.setName(registerUserRequestDTO.name());
         newUser.setEmail(registerUserRequestDTO.email());
-        newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+        newUser.setPasswordHash(passwordEncoder.encode(registerUserRequestDTO.password()));
         newUser.setRoles(Set.of(roleService.findRoleByName(UserRoles.USER)));
         userRepository.save(newUser);
 
         return UserResponseDTO.of(newUser);
     }
 
-
-    // TODO: Falta testear metodos a partir de aquí
-
     @Transactional
     public UserResponseDTO updateNameUser(UserEntity authUser, UpdateUserNameRequestDTO updateUserNameRequestDTO) {
+        UserEntity user = userRepository.findById(authUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(authUser.getId())));
+
         boolean hasName = updateUserNameRequestDTO.name() != null && !updateUserNameRequestDTO.name().isBlank();
 
-        if(!hasName){
-            throw new UserFailedUpdateProfileException("El nombre no puede estar vacío");
-        } else {
-            authUser.setName(updateUserNameRequestDTO.name());
+        if (!hasName) {
+            throw new UserFailedUpdateProfileException(EMPTY_NAME);
         }
 
-        return UserResponseDTO.of(authUser);
+        user.setName(updateUserNameRequestDTO.name());
+        userRepository.save(user);
+
+        return UserResponseDTO.of(user);
     }
 
     @Transactional
     public UserResponseDTO updateEmailUser(UserEntity authUser, UpdateUserEmailRequestDTO updateUserEmailRequestDTO) {
+        UserEntity user = userRepository.findById(authUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(authUser.getId())));
+
         boolean emailAlreadyExists = userRepository.findByEmail(updateUserEmailRequestDTO.email()).isPresent();
 
-        if(emailAlreadyExists) {
+        if (emailAlreadyExists) {
             throw new UserEmailAlreadyExistsException();
-        } else {
-            authUser.setEmail(updateUserEmailRequestDTO.email());
         }
 
-        return UserResponseDTO.of(authUser);
+        user.setEmail(updateUserEmailRequestDTO.email());
+        userRepository.save(user);
+
+        return UserResponseDTO.of(user);
     }
 
     @Transactional
-    public void deleteUser(UserEntity authUser){
-        userRepository.delete(authUser);
+    public void deleteUser(UserEntity authUser) {
+        UserEntity user = userRepository.findById(authUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(authUser.getId())));
+
+        userRepository.delete(user);
     }
 
+    @Transactional
+    public void updatePasswordUser(UserEntity authUser, UpdateUserPasswordRequestDTO updateUserPasswordRequestDTO) {
+        UserEntity user = userRepository.findById(authUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(Long.toString(authUser.getId())));
 
+        validatePasswordChange(user, updateUserPasswordRequestDTO);
+
+        user.setPasswordHash(passwordEncoder.encode(updateUserPasswordRequestDTO.newPassword()));
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public UserAdminResponseDTO updateUserToAdmin(Long id, UserUpdateAdminRequestDTO userUpdateAdminRequestDTO) {
+        UserEntity userToUpdate = findUserById(id);
+
+        userToUpdate.setName(userUpdateAdminRequestDTO.name());
+        userToUpdate.setEmail(userUpdateAdminRequestDTO.email());
+        userToUpdate.setRoles(userUpdateAdminRequestDTO.roles().stream()
+                .map(roleName -> roleService.findRoleByName(UserRoles.valueOf(roleName)))
+                .collect(Collectors.toSet()));
+
+        return UserAdminResponseDTO.of(userToUpdate);
+    }
+
+    private void validatePasswordChange(UserEntity authUser, UpdateUserPasswordRequestDTO updateUserPassRequestDto) {
+        if (!passwordEncoder.matches(updateUserPassRequestDto.oldPassword(), authUser.getPassword())) {
+            throw new UserPasswordCheckException();
+        }
+
+        if (!updateUserPassRequestDto.newPassword().equals(updateUserPassRequestDto.confirmNewPassword())) {
+            throw new UserPasswordException();
+        }
+    }
 }
 

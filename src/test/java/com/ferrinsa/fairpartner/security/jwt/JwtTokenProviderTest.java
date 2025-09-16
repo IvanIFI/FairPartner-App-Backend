@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import java.util.List;
 
 import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.UserTestFactory.buildTestUser;
+import static com.ferrinsa.fairpartner.user.util.UserTestFactory.buildTestUser1;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,14 +21,14 @@ class JwtTokenProviderTest {
 
     @BeforeEach
     void setUp() {
-        UserEntity user = buildTestUser();
+        UserEntity user = buildTestUser1();
         jwtTokenProvider = new JwtTokenProvider(TEST_GENERATE_TOKEN_KEY,  TEST_GENERATE_TOKEN_TIME_EXPIRED);
         authUser = new UsernamePasswordAuthenticationToken(user, null, List.of());
     }
 
     @Test
     @DisplayName("Successful token generate")
-    void generateToken_ReturnValidToken() {
+    void generateToken_returnValidToken() {
         String token = jwtTokenProvider.generateToken(authUser);
 
         assertNotNull(token);
@@ -38,7 +38,7 @@ class JwtTokenProviderTest {
 
     @Test
     @DisplayName("Validate failed for invalid token")
-    void isValidToken_ReturnFalse_WhenTokenIsInvalid() {
+    void isValidToken_returnFalse_whenTokenIsInvalid() {
         String token = jwtTokenProvider.generateToken(authUser);
         String invalidToken = token.substring(0, token.length() - 1);
 
@@ -47,7 +47,7 @@ class JwtTokenProviderTest {
 
     @Test
     @DisplayName("Validate failed for token time expired")
-    void isValidToken_ReturnFalse_WhenTokenIsExpired() {
+    void isValidToken_returnFalse_whenTokenIsExpired() {
         String token = jwtTokenProvider.generateToken(authUser);
         await().atMost(3, SECONDS).until(() -> !jwtTokenProvider.isValidToken(token));
 
