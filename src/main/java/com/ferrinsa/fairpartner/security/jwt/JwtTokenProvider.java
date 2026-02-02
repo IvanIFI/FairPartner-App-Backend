@@ -31,10 +31,8 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
-
         UserEntity user = (UserEntity) authentication.getPrincipal();
         SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-
         return Jwts.builder()
                 .subject(Long.toString(user.getId()))
                 .issuedAt(new Date())

@@ -37,7 +37,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = getJwtFromRequest(request);
 
-        if(StringUtils.hasText(token) && tokenProvider.isValidToken(token)){
+        if(StringUtils.hasText(token) && tokenProvider.isValidToken(token)) {
             Long userId = tokenProvider.getIdUserFromToken(token);
             UserEntity user = (UserEntity) userDetailsService.loadUserById(userId);
             Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -48,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
 
-    private String getJwtFromRequest(HttpServletRequest request){
+    private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTH_HEADER);
 
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)){
