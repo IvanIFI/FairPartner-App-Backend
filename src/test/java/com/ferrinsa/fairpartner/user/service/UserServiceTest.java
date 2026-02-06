@@ -6,7 +6,7 @@ import com.ferrinsa.fairpartner.exception.user.*;
 import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import com.ferrinsa.fairpartner.security.role.service.RoleService;
 import com.ferrinsa.fairpartner.security.role.values.UserRoles;
-import com.ferrinsa.fairpartner.user.dto.RegisterUserRequestDTO;
+import com.ferrinsa.fairpartner.security.dto.RegisterUserRequestDTO;
 import com.ferrinsa.fairpartner.user.dto.UserAdminResponseDTO;
 import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
@@ -44,7 +44,7 @@ class UserServiceTest {
     @Mock UserRepository userRepository;
     @Mock PasswordEncoder passwordEncoder;
     @Mock RoleService roleService;
-    @InjectMocks UserService userService;
+    @InjectMocks UserServiceImpl userService;
 
     private UserEntity expectedUser1;
     private UserEntity expectedUser2;

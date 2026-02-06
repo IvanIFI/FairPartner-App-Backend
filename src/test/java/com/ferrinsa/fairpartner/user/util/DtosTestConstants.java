@@ -2,6 +2,7 @@ package com.ferrinsa.fairpartner.user.util;
 
 import com.ferrinsa.fairpartner.security.dto.LoginRequestDTO;
 import com.ferrinsa.fairpartner.security.dto.LoginResponseDTO;
+import com.ferrinsa.fairpartner.security.dto.RegisterUserRequestDTO;
 import com.ferrinsa.fairpartner.user.dto.*;
 
 import java.util.List;
