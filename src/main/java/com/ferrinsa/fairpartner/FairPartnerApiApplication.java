@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         title = "FairPartner REST API",
         description = "Backend for the FairPartner application.",
         version = "1.0",
-        contact = @Contact(email = "ifersa19@gmail.com", name = "Ferrinsa")))
+        contact = @Contact(email = "ifersa19@gmail.com", name = "Ivan Ferre")))
 public class FairPartnerApiApplication {
 
     public static void main(String[] args) {

@@ -58,6 +58,6 @@ public class AdminUserController {
     public ResponseEntity<UserAdminResponseDTO> updateUserToAdmin(
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateAdminRequestDTO userUpdateAdminRequestDTO) {
-        return ResponseEntity.ok(userService.updateUserToAdmin(id,userUpdateAdminRequestDTO));
+        return ResponseEntity.ok(userService.updateUserToAdmin(id, userUpdateAdminRequestDTO));
     }
 }

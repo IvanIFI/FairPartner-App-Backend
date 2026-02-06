@@ -35,7 +35,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String token = getJwtFromRequest(request);
+        String token = this.getJwtFromRequest(request);
 
         if(StringUtils.hasText(token) && tokenProvider.isValidToken(token)) {
             Long userId = tokenProvider.getIdUserFromToken(token);

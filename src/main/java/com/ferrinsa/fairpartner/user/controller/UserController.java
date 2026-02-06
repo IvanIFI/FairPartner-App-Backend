@@ -25,8 +25,8 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDTO> getMe(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(UserResponseDTO.of(user));
+    public ResponseEntity<UserResponseDTO> getMe(@AuthenticationPrincipal UserEntity authUser) {
+        return ResponseEntity.ok(UserResponseDTO.of(authUser));
     }
 
     @PreAuthorize("isAuthenticated()")
