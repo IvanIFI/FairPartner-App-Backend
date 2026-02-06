@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.user.validation;
+package com.ferrinsa.fairpartner.security.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

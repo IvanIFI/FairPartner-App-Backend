@@ -1,9 +1,8 @@
-package com.ferrinsa.fairpartner.user.dto;
+package com.ferrinsa.fairpartner.security.dto;
 
-import com.ferrinsa.fairpartner.user.validation.ValidPassword;
+import com.ferrinsa.fairpartner.security.validation.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 public record RegisterUserRequestDTO(
         @NotBlank String name,
