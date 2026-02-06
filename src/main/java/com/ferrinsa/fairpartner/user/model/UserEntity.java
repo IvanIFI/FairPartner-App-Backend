@@ -15,12 +15,13 @@ public class UserEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
-    @Column(name = "registration_date", insertable = false, updatable = false)
+    @Column(name = "registration_date", insertable = false, updatable = false, nullable = false)
     private LocalDate registrationDate;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -131,6 +132,5 @@ public class UserEntity implements UserDetails {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 
 }
