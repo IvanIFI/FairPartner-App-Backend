@@ -24,6 +24,7 @@ public class Participate {
     private ExpenseGroup expenseGroup;
 
     public Participate() {
+        // Required by JPA
     }
 
     public Participate(UserEntity user, ExpenseGroup expenseGroup) {

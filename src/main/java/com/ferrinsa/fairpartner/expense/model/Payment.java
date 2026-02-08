@@ -29,6 +29,7 @@ public class Payment {
     private Double cant;
 
     public Payment() {
+        // Required by JPA
     }
 
     public Payment(UserEntity user, Expense expense, Double cant) {

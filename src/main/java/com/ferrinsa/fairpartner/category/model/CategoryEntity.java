@@ -16,6 +16,7 @@ public class CategoryEntity {
     private String icon;
 
     public CategoryEntity() {
+        // Required by JPA
     }
 
     public CategoryEntity(String name, String icon) {

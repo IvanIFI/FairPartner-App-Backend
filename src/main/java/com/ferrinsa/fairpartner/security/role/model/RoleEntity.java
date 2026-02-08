@@ -19,6 +19,7 @@ public class RoleEntity {
 
 
     public RoleEntity() {
+        // Required by JPA
     }
 
     public RoleEntity(UserRoles userRole) {

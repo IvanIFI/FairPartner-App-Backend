@@ -32,6 +32,7 @@ public class UserEntity implements UserDetails {
     private Set<RoleEntity> roles;
 
     public UserEntity() {
+        // Required by JPA
     }
 
     public UserEntity(String name, String email, String passwordHash) {

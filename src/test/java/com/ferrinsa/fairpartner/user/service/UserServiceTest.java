@@ -168,6 +168,7 @@ class UserServiceTest {
             verify(userRepository).findById(ID_1);
         }
 
+        //TODO: Se ha cambiado la validación en el DTO y ahora es @NotBlank lo cual hace fallar el test, revisar solución!
         @Test
         @DisplayName("Update name failed")
         void updateNameUser_returnUserFailedUpdateProfileException_whenFailedUpdate() {

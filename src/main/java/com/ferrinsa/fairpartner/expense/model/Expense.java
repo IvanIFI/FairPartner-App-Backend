@@ -35,6 +35,7 @@ public class Expense {
     private Double cant;
 
     public Expense() {
+        // Required by JPA
     }
 
     public Expense(ExpenseGroup expenseGroup, CategoryEntity category,UserEntity createdBy, String name, String description, Double cant, String icon) {
