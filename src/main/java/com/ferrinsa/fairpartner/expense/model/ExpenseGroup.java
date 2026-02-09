@@ -1,7 +1,10 @@
 package com.ferrinsa.fairpartner.expense.model;
 
+import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,16 +13,23 @@ public class ExpenseGroup {
 
     //TODO: RECUERDA EL ATRIBUTO RESUME QUE NO SE ALMACENA SINO QUE SE CUALCULA EN LA LOGICA DE LA APLICACION
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    private String name;
     private String description;
     @Column(nullable = false)
     private String icon;
+    @OneToMany(mappedBy = "expenseGroup")
+    private List<Participate> participates = new ArrayList<>();
 
     public ExpenseGroup() {
+        // Required by JPA
     }
 
-    public ExpenseGroup(String description, String icon) {
+    public ExpenseGroup(String name, String description, String icon) {
+        this.name = name;
         this.description = description;
         this.icon = icon;
     }
@@ -30,6 +40,14 @@ public class ExpenseGroup {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -46,6 +64,19 @@ public class ExpenseGroup {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public List<Participate> getParticipates() {
+        return participates;
+    }
+
+    public void setParticipates(List<Participate> participates) {
+        this.participates = participates;
+    }
+
+    public void addParticipate(Participate participate){
+        this.participates.add(participate);
+        participate.setExpenseGroup(this); // Keep bidirectional relationship consistent in memory
     }
 
     @Override

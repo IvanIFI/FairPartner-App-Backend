@@ -15,6 +15,7 @@ public class ExpenseExceptionHandler {
 
     private static final String TITLE_EXPENSE_GROUP_NOT_FOUND = "Grupo de gastos no encontrado";
     private static final String TITLE_EXPENSE_NOT_FOUND = "Gasto no encontrado";
+    private static final String TITLE_PARTICIPATION_ALREADY_EXISTS = "Usuario ya existe en el grupo";
 
 
     @ExceptionHandler(ExpenseGroupNotFoundException.class)
@@ -31,6 +32,15 @@ public class ExpenseExceptionHandler {
     public ProblemDetail handleExpenseNotFoundException(ExpenseNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle(TITLE_EXPENSE_NOT_FOUND);
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ParticipationAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ProblemDetail handleParticipationAlreadyExistsException(ParticipationAlreadyExistsException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle(TITLE_PARTICIPATION_ALREADY_EXISTS);
         problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }
