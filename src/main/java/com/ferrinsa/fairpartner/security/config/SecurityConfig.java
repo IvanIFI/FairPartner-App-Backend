@@ -65,7 +65,8 @@ public class SecurityConfig {
                                 "/auth/**",
                                 "/doc/**",
                                 "/swagger-ui/**",
-                                "/fairpartnerapi/**").permitAll()
+                                "/fairpartnerapi/**",
+                                "/error").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

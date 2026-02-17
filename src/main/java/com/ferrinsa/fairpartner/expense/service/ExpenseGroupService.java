@@ -3,23 +3,25 @@ package com.ferrinsa.fairpartner.expense.service;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
-import com.ferrinsa.fairpartner.user.model.UserEntity;
 
 
 import java.util.List;
 
 public interface ExpenseGroupService {
 
-    List<ExpenseGroupResponseDTO> findExpenseGroupsByUser(UserEntity authUser);
+    List<ExpenseGroupResponseDTO> findExpenseGroupsByUser(Long authUserId);
 
-    ExpenseGroupResponseDTO createExpenseGroup(UserEntity authUser,
+    ExpenseGroupResponseDTO findExpenseGroupById(Long authUserId, Long groupId);
+
+    ExpenseGroupResponseDTO createExpenseGroup(Long authUserId,
                                                NewExpenseGroupRequestDTO newExpenseGroupRequestDTO);
 
-    ExpenseGroupResponseDTO addUserToExpenseGroup (UserEntity authUser, Long expenseGroupId);
+    ExpenseGroupResponseDTO addUserToExpenseGroup(Long authUserId, Long expenseGroupId);
 
-    void leaveCurrentUserFromExpenseGroup(UserEntity authUser, Long expenseGroupId);
+    void leaveCurrentUserFromExpenseGroup(Long authUserId, Long expenseGroupId);
 
-    ExpenseGroupResponseDTO updateExpenseGroup(Long expenseGroupId,
+    ExpenseGroupResponseDTO updateExpenseGroup(Long authUserId,
+                                               Long expenseGroupId,
                                                UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO);
 
 }

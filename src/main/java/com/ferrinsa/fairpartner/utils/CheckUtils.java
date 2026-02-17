@@ -8,11 +8,17 @@ public class CheckUtils {
         // Utility class, this constructor prevents instantiation
     }
 
-    public static void isValidSize(int size, String field) {
-        boolean isValid = field != null && field.length() <= size && !field.isBlank();
+    public static void isValidSize(String fieldName, String value, int maxSize) {
+        if (value == null) {
+            throw new InvalidRequestException(fieldName, "Parámetro null");
+        }
 
-        if (!isValid) {
-            throw new InvalidRequestException();
+        if (value.length() > maxSize) {
+            throw new InvalidRequestException(fieldName, maxSize);
+        }
+
+        if (value.isBlank()) {
+            throw new InvalidRequestException(fieldName, "Parámetro en blanco");
         }
     }
 
