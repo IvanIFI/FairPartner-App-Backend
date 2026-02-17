@@ -30,6 +30,7 @@ public class Participate {
     public Participate(UserEntity user, ExpenseGroup expenseGroup) {
         this.user = user;
         this.expenseGroup = expenseGroup;
+        this.id = new ParticipateId(user.getId(), expenseGroup.getId());
     }
 
     public ParticipateId getId() {

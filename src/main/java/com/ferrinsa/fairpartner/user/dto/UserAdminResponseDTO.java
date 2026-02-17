@@ -25,5 +25,4 @@ public record UserAdminResponseDTO(
                 user.getRoles().stream().map(RoleEntity::getRoleName).toList());
     }
 
-
 }

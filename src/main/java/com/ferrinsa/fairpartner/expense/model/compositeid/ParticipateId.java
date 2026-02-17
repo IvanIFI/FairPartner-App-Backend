@@ -15,6 +15,11 @@ public class ParticipateId implements Serializable {
         // Required by JPA
     }
 
+    public ParticipateId(Long userId, Long expenseGroupId) {
+        this.userId = userId;
+        this.expenseGroupId = expenseGroupId;
+    }
+
     public Long getUserId() {
         return userId;
     }

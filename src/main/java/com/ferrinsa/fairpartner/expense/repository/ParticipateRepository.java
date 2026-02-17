@@ -15,13 +15,13 @@ public interface ParticipateRepository extends JpaRepository<Participate, Partic
     boolean existsByUserIdAndExpenseGroupId(Long userId, Long expenseGroupId);
 
     @Query("""
-        SELECT DISTINCT g
-        FROM ExpenseGroup g
-        JOIN Participate pUser ON pUser.expenseGroup = g
-        JOIN FETCH Participate pMembers ON pMembers.expenseGroup = g
-        JOIN FETCH pMembers.user
-        WHERE pUser.user.id = :userId
-    """)
+                SELECT DISTINCT g
+                FROM ExpenseGroup g
+                JOIN g.participates pUser
+                JOIN FETCH g.participates pMembers
+                JOIN FETCH pMembers.user
+                WHERE pUser.user.id = :userId
+            """)
     List<ExpenseGroup> findExpenseGroupsWithUsersByUserId(Long userId);
 
 }
