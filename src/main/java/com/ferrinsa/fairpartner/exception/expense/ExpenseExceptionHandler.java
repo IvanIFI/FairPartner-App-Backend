@@ -16,6 +16,8 @@ public class ExpenseExceptionHandler {
     private static final String TITLE_EXPENSE_GROUP_NOT_FOUND = "Grupo de gastos no encontrado";
     private static final String TITLE_EXPENSE_NOT_FOUND = "Gasto no encontrado";
     private static final String TITLE_PARTICIPATION_ALREADY_EXISTS = "Usuario ya existe en el grupo";
+    private static final String TITLE_ACCESS_DENIED_EXPENSE_GROUP = "Usuario sin acceso al grupo";
+
 
 
     @ExceptionHandler(ExpenseGroupNotFoundException.class)
@@ -41,6 +43,15 @@ public class ExpenseExceptionHandler {
     public ProblemDetail handleParticipationAlreadyExistsException(ParticipationAlreadyExistsException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
         problemDetail.setTitle(TITLE_PARTICIPATION_ALREADY_EXISTS);
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ExpenseGroupAccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ProblemDetail handleExpenseGroupAccessDeniedException(ExpenseGroupAccessDeniedException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
+        problemDetail.setTitle(TITLE_ACCESS_DENIED_EXPENSE_GROUP);
         problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }
