@@ -16,8 +16,6 @@ public interface ExpenseGroupService {
     ExpenseGroupResponseDTO createExpenseGroup(Long authUserId,
                                                NewExpenseGroupRequestDTO newExpenseGroupRequestDTO);
 
-    ExpenseGroupResponseDTO addUserToExpenseGroup(Long authUserId, Long expenseGroupId);
-
     void leaveCurrentUserFromExpenseGroup(Long authUserId, Long expenseGroupId);
 
     ExpenseGroupResponseDTO updateExpenseGroup(Long authUserId,

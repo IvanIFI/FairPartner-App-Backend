@@ -1,8 +1,7 @@
 package com.ferrinsa.fairpartner.expense.service.impl;
 
-import com.ferrinsa.fairpartner.exception.expense.ExpenseGroupAccessDeniedException;
-import com.ferrinsa.fairpartner.exception.expense.ExpenseGroupNotFoundException;
-import com.ferrinsa.fairpartner.exception.expense.ParticipationAlreadyExistsException;
+import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupAccessDeniedException;
+import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
@@ -79,33 +78,10 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
 
     @Override
     @Transactional
-    public ExpenseGroupResponseDTO addUserToExpenseGroup(Long authUserId, Long expenseGroupId) {
-        boolean existsParticipation = participateRepository.existsByUserIdAndExpenseGroupId(
-                authUserId,
-                expenseGroupId);
-
-        if (existsParticipation) {
-            throw new ParticipationAlreadyExistsException(String.valueOf(
-                    authUserId),
-                    String.valueOf(expenseGroupId));
-        }
-
-        ExpenseGroup expenseGroup = expenseGroupRepository.findById(expenseGroupId).orElseThrow(
-                () -> new ExpenseGroupNotFoundException(String.valueOf(expenseGroupId)));
-        Participate newParticipate = new Participate(userRepository.getReferenceById(authUserId), expenseGroup);
-
-        participateRepository.save(newParticipate);
-        expenseGroup.addParticipate(newParticipate);
-
-        return ExpenseGroupResponseDTO.of(expenseGroup);
-    }
-
-    @Override
-    @Transactional
     public void leaveCurrentUserFromExpenseGroup(Long authUserId, Long expenseGroupId) {
         participateRepository.deleteByUserIdAndExpenseGroupId(authUserId, expenseGroupId);
         participateRepository.flush();
-        checkAndDeleteExpenseGroup(expenseGroupId);
+        this.checkAndDeleteExpenseGroup(expenseGroupId);
     }
 
     @Override
@@ -124,7 +100,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
             throw new ExpenseGroupAccessDeniedException(String.valueOf(authUserId), String.valueOf(expenseGroupId));
         }
 
-        checkFieldsToUpdateExpenseGroup(expenseGroupToUpdate, updateExpenseGroupRequestDTO);
+        this.checkFieldsToUpdateExpenseGroup(expenseGroupToUpdate, updateExpenseGroupRequestDTO);
 
         return ExpenseGroupResponseDTO.of(expenseGroupToUpdate);
     }
@@ -138,7 +114,8 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
         }
     }
 
-    private void checkFieldsToUpdateExpenseGroup(ExpenseGroup expenseGroupToUpdate, UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO) {
+    private void checkFieldsToUpdateExpenseGroup(ExpenseGroup expenseGroupToUpdate
+            , UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO) {
         if (updateExpenseGroupRequestDTO.name() != null) {
             CheckUtils.isValidSize("name", updateExpenseGroupRequestDTO.name(), 20);
             expenseGroupToUpdate.setName(updateExpenseGroupRequestDTO.name());
