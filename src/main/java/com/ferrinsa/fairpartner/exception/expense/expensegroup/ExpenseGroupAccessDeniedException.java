@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.exception.expense;
+package com.ferrinsa.fairpartner.exception.expense.expensegroup;
 
 import com.ferrinsa.fairpartner.exception.AppException;
 
