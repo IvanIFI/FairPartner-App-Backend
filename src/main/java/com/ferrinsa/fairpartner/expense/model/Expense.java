@@ -38,7 +38,13 @@ public class Expense {
         // Required by JPA
     }
 
-    public Expense(ExpenseGroup expenseGroup, CategoryEntity category,UserEntity createdBy, String name, String description, Double cant, String icon) {
+    public Expense(ExpenseGroup expenseGroup,
+                   CategoryEntity category,
+                   UserEntity createdBy,
+                   String name,
+                   String description,
+                   Double cant,
+                   String icon) {
         this.expenseGroup = expenseGroup;
         this.category = category;
         this.createdBy = createdBy;
