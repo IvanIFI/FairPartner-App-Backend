@@ -3,6 +3,7 @@ package com.ferrinsa.fairpartner.expense.model;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.Objects;
 public class Invitation {
 
     public enum InvitationStatus {
-        SENT, ACCEPTED, REJECTED, EXPIRED
+        SENT, ACCEPTED, REJECTED, EXPIRED, CANCELED
     }
 
     @Id
@@ -27,6 +28,10 @@ public class Invitation {
     private UserEntity invitedUser;
     @Column(nullable = false, unique = true)
     private String token;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDateTime creationDate;
+    @Column(name = "expiration_date", nullable = false)
+    private LocalDateTime expirationDate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private InvitationStatus status;
@@ -35,15 +40,14 @@ public class Invitation {
         // Required by JPA
     }
 
-    public Invitation(ExpenseGroup expenseGroup,
-                      UserEntity inviterUser,
-                      UserEntity invitedUser,
-                      String token, InvitationStatus status) {
+    public Invitation(ExpenseGroup expenseGroup, UserEntity inviterUser, UserEntity invitedUser, String token, LocalDateTime creationDate, LocalDateTime expirationDate) {
         this.expenseGroup = expenseGroup;
         this.inviterUser = inviterUser;
         this.invitedUser = invitedUser;
         this.token = token;
-        this.status = status;
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
+        this.status = InvitationStatus.SENT;
     }
 
     public Long getId() {
@@ -92,6 +96,14 @@ public class Invitation {
 
     public void setStatus(InvitationStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
     }
 
     @Override
