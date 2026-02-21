@@ -18,7 +18,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private final String jwtSecret;
     private final Long jwtDurationSeconds;
@@ -68,17 +68,17 @@ public class JwtTokenProvider {
             return true;
 
         } catch (SignatureException ex) {
-            log.warn("Error en la firma del token JWT: {}", ex.getMessage());
+            LOG.warn("Error en la firma del token JWT: {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
-            log.warn("Token malformado: {}", ex.getMessage());
+            LOG.warn("Token malformado: {}", ex.getMessage());
         } catch (ExpiredJwtException ex) {
-            log.info("El token ha expirado: {}", ex.getMessage());
+            LOG.info("El token ha expirado: {}", ex.getMessage());
         } catch (UnsupportedJwtException ex) {
-            log.warn("Token JWT no soportado: {}", ex.getMessage());
+            LOG.warn("Token JWT no soportado: {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            log.warn("JWT claims vacío");
+            LOG.warn("JWT claims vacío");
         } catch (JwtException ex) {
-            log.warn("Error genérico de JWT: {}", ex.getMessage());
+            LOG.warn("Error genérico de JWT: {}", ex.getMessage());
         }
 
         return false;
