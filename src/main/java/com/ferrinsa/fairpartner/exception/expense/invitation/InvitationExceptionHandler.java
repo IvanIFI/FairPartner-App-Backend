@@ -23,6 +23,8 @@ public class InvitationExceptionHandler {
     private static final String TITLE_CANCELED_INVITATION = "Invitación cancelada";
     private static final String TITLE_REJECT_INVITATION = "Invitación ya rechazada";
     private static final String TITLE_INVITATION_STATUS_NOT_MANAGED = "Estado de invitación no controlado";
+    private static final String TITLE_MAX_PARTICIPANTS_EXCEEDED = "Participantes excedidos";
+
 
     @ExceptionHandler(InvitationAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -110,6 +112,15 @@ public class InvitationExceptionHandler {
     public ProblemDetail handleInvitationStateNotManagedException(InvitationStateNotManagedException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         problemDetail.setTitle(TITLE_INVITATION_STATUS_NOT_MANAGED);
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(MaxParticipantsExceededException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ProblemDetail handleMaxParticipantsExceededException(MaxParticipantsExceededException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle(TITLE_MAX_PARTICIPANTS_EXCEEDED);
         problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }

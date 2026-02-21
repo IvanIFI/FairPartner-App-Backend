@@ -6,6 +6,8 @@ import com.ferrinsa.fairpartner.exception.expense.expensegroup.UserNotMemberOfGr
 import com.ferrinsa.fairpartner.exception.expense.invitation.*;
 import com.ferrinsa.fairpartner.exception.user.UserNotFoundException;
 import com.ferrinsa.fairpartner.expense.dto.invitation.CreateInvitationRequestDTO;
+import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationDetailsResponseDTO;
+import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationSummaryResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationTokenResponseDTO;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.model.Invitation;
@@ -17,18 +19,23 @@ import com.ferrinsa.fairpartner.expense.service.InvitationService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 
 //TODO: POSIBLE LOG EN EL REINTENTO DEL TOKEN?
+@Service
 public class InvitationServiceImpl implements InvitationService {
 
     // Single instance reused for token generation
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private final Long maxParticipants;
 
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
@@ -39,11 +46,38 @@ public class InvitationServiceImpl implements InvitationService {
     public InvitationServiceImpl(UserRepository userRepository,
                                  InvitationRepository invitationRepository,
                                  ExpenseGroupRepository expenseGroupRepository,
-                                 ParticipateRepository participateRepository) {
+                                 ParticipateRepository participateRepository,
+                                 @Value("${app.domain.group-max-participants}") Long maxParticipants) {
         this.userRepository = userRepository;
         this.invitationRepository = invitationRepository;
         this.expenseGroupRepository = expenseGroupRepository;
         this.participateRepository = participateRepository;
+        this.maxParticipants = maxParticipants;
+    }
+
+    @Override
+    @Transactional
+    public List<InvitationSummaryResponseDTO> findAllSentInvitations(Long authUserId) {
+        return invitationRepository.findByInviterUser_IdOrderByCreationDateDesc(authUserId)
+                .stream()
+                .map(inv ->
+                        {
+                            this.checkOrUpdateExpiredStatus(inv);
+                            return InvitationSummaryResponseDTO.of(inv);
+                        }
+                ).toList();
+    }
+
+    @Override
+    @Transactional
+    public InvitationDetailsResponseDTO findSentInvitationDetail(Long authUserId, Long invitationId) {
+        Invitation invitation = invitationRepository.findById(invitationId)
+                .orElseThrow(InvitationNotFoundException::new);
+
+        this.validateUserInviter(invitation, authUserId);
+        this.checkOrUpdateExpiredStatus(invitation);
+
+        return InvitationDetailsResponseDTO.of(invitation);
     }
 
     @Override
@@ -60,6 +94,7 @@ public class InvitationServiceImpl implements InvitationService {
                 .orElseThrow(() -> new ExpenseGroupNotFoundException(
                         String.valueOf(createInvitationRequestDTO.expenseGroupId())));
 
+        this.validateMaxUsersParticipate(createInvitationRequestDTO.expenseGroupId());
         this.checkInvitationToCreate(expenseGroup, inviterUser, invitedUser);
 
         LocalDateTime nowTime = LocalDateTime.now();
@@ -75,7 +110,7 @@ public class InvitationServiceImpl implements InvitationService {
         for (int i = 0; i < 3; i++) {
             try {
                 invitationRepository.save(invitation);
-                return new InvitationTokenResponseDTO(invitation.getToken());
+                return new InvitationTokenResponseDTO(invitation.getId(), invitation.getToken());
             } catch (DataIntegrityViolationException ex) {
                 invitation.setToken(generateToken());
             }
@@ -83,9 +118,20 @@ public class InvitationServiceImpl implements InvitationService {
         throw new InvitationCreationException();
     }
 
-
     @Override
     @Transactional
+    public InvitationSummaryResponseDTO receiveInvitation(Long authUserId, String token) {
+        Invitation invitation = invitationRepository.findByToken(token)
+                .orElseThrow(InvitationNotFoundException::new);
+
+        this.validateUserInvited(invitation, authUserId);
+        this.checkOrUpdateExpiredStatus(invitation);
+
+        return InvitationSummaryResponseDTO.of(invitation);
+    }
+
+    @Override
+    @Transactional(noRollbackFor = ExpiredInvitationException.class)
     public void acceptInvitation(Long authUserId, String token) {
         Invitation invitation = invitationRepository.findByToken(token)
                 .orElseThrow(InvitationNotFoundException::new);
@@ -93,6 +139,7 @@ public class InvitationServiceImpl implements InvitationService {
         this.validateUserInvited(invitation, authUserId);
         this.checkOrUpdateExpiredStatus(invitation);
         this.validateInvitationStatusIsSent(invitation, authUserId);
+        this.validateMaxUsersParticipate(invitation.getExpenseGroup().getId());
         this.validateNotAlreadyParticipant(invitation, authUserId);
 
         Participate newparticipate = new Participate(
@@ -106,7 +153,7 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(noRollbackFor = ExpiredInvitationException.class)
     public void rejectInvitation(Long authUserId, String token) {
         Invitation invitation = invitationRepository.findByToken(token)
                 .orElseThrow(InvitationNotFoundException::new);
@@ -119,7 +166,7 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(noRollbackFor = ExpiredInvitationException.class)
     public void cancelInvitation(Long authUserId, Long invitationId) {
         Invitation invitation = invitationRepository.findById(invitationId)
                 .orElseThrow(InvitationNotFoundException::new);
@@ -164,11 +211,10 @@ public class InvitationServiceImpl implements InvitationService {
         }
     }
 
-    private void checkOrUpdateExpiredStatus(Invitation invitation) {
+    private void checkOrUpdateExpiredStatus(Invitation inv) {
         LocalDateTime now = LocalDateTime.now();
-        if (invitation.getExpirationDate().isBefore(now)) {
-            invitation.setStatus(Invitation.InvitationStatus.EXPIRED);
-            throw new ExpiredInvitationException();
+        if (inv.getExpirationDate().isBefore(now) && inv.getStatus() == Invitation.InvitationStatus.SENT) {
+            inv.setStatus(Invitation.InvitationStatus.EXPIRED);
         }
     }
 
@@ -179,6 +225,7 @@ public class InvitationServiceImpl implements InvitationService {
                         String.valueOf(authUserId), String.valueOf(invitation.getExpenseGroup().getId()));
                 case CANCELED -> throw new CanceledInvitationException();
                 case REJECTED -> throw new RejectInvitationException();
+                case EXPIRED -> throw new ExpiredInvitationException();
                 default -> throw new InvitationStateNotManagedException();
             }
         }
@@ -200,6 +247,15 @@ public class InvitationServiceImpl implements InvitationService {
     private void validateUserInviter(Invitation invitation, Long authUserId) {
         if (!invitation.getInviterUser().equals(userRepository.getReferenceById(authUserId))) {
             throw new UserNotInvitedException(String.valueOf(authUserId), String.valueOf(invitation.getId()));
+        }
+    }
+
+    private void validateMaxUsersParticipate(long expenseGroupId) {
+        long userMembersParticipates = participateRepository
+                .countByExpenseGroup_Id(expenseGroupId);
+
+        if (userMembersParticipates >= maxParticipants) {
+           throw new MaxParticipantsExceededException();
         }
     }
 

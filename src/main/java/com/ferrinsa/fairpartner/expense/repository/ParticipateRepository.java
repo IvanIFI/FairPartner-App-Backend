@@ -24,4 +24,6 @@ public interface ParticipateRepository extends JpaRepository<Participate, Partic
             """)
     List<ExpenseGroup> findExpenseGroupsWithUsersByUserId(Long userId);
 
+    long countByExpenseGroup_Id(Long expenseGroupId);
+
 }
