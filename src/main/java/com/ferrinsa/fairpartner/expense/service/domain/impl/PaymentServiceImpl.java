@@ -1,7 +1,7 @@
-package com.ferrinsa.fairpartner.expense.service.impl;
+package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
 import com.ferrinsa.fairpartner.expense.repository.PaymentRepository;
-import com.ferrinsa.fairpartner.expense.service.PaymentService;
+import com.ferrinsa.fairpartner.expense.service.domain.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

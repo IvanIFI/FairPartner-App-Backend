@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.expense.service.impl;
+package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ParticipationAlreadyExistsException;
@@ -15,7 +15,7 @@ import com.ferrinsa.fairpartner.expense.model.Participate;
 import com.ferrinsa.fairpartner.expense.repository.ExpenseGroupRepository;
 import com.ferrinsa.fairpartner.expense.repository.InvitationRepository;
 import com.ferrinsa.fairpartner.expense.repository.ParticipateRepository;
-import com.ferrinsa.fairpartner.expense.service.InvitationService;
+import com.ferrinsa.fairpartner.expense.service.domain.InvitationService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

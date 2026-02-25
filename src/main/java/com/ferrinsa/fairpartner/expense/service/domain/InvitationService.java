@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.expense.service;
+package com.ferrinsa.fairpartner.expense.service.domain;
 
 import com.ferrinsa.fairpartner.expense.dto.invitation.CreateInvitationRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationDetailsResponseDTO;

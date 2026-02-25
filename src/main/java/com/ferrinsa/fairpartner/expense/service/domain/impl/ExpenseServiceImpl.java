@@ -1,18 +1,14 @@
-package com.ferrinsa.fairpartner.expense.service.impl;
+package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
 import com.ferrinsa.fairpartner.category.model.CategoryEntity;
 import com.ferrinsa.fairpartner.category.repository.CategoryEntityRepository;
 import com.ferrinsa.fairpartner.exception.category.CategoryNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expense.ExpenseNotFoundException;
-import com.ferrinsa.fairpartner.expense.dto.expense.ExpenseCreateRequestDTO;
-import com.ferrinsa.fairpartner.expense.dto.expense.ExpenseCreatedResponseDTO;
-import com.ferrinsa.fairpartner.expense.dto.expense.ExpenseResponseDTO;
-import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.repository.ExpenseGroupRepository;
 import com.ferrinsa.fairpartner.expense.repository.ExpenseRepository;
-import com.ferrinsa.fairpartner.expense.service.ExpenseService;
+import com.ferrinsa.fairpartner.expense.service.domain.ExpenseService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
 
+    /*
     //FIXME: MOVER Y CREAR UNA CLASE DE CONSTANTES? APPCONSTATS
     private static final String DEFAULT_ICON = "icon";
 
@@ -49,7 +46,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 authUser,
                 expenseCreateRequestDTO.name(),
                 expenseCreateRequestDTO.description(),
-                expenseCreateRequestDTO.cant(),
+                expenseCreateRequestDTO.amount(),
                 icon
         );
 
@@ -89,5 +86,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private String checkIconUserOrDefault(String icon) {
         return (icon == null || icon.isBlank()) ? DEFAULT_ICON : icon;
     }
+
+    */
 
 }

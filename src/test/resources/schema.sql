@@ -59,7 +59,7 @@ CREATE TABLE expense (
   description VARCHAR(200),
   date DATE NOT NULL DEFAULT CURRENT_DATE,
   icon VARCHAR(300) NOT NULL,
-  cant DECIMAL(10,2) NOT NULL CHECK (cant > 0),
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
   CONSTRAINT expense_expense_group_fk FOREIGN KEY (id_expense_group) REFERENCES expense_group(id),
   CONSTRAINT expense_category_fk FOREIGN KEY (id_category) REFERENCES category(id),
   CONSTRAINT expense_user_fk FOREIGN KEY (id_user) REFERENCES users(id)
@@ -68,7 +68,7 @@ CREATE TABLE expense (
 CREATE TABLE payment(
   id_user INT,
   id_expense INT,
-  cant DECIMAL(10,2) NOT NULL CHECK (cant > 0),
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
   PRIMARY KEY (id_user, id_expense),
   CONSTRAINT payment_user_fk FOREIGN KEY (id_user) REFERENCES users(id),
   CONSTRAINT payment_expense_fk FOREIGN KEY (id_expense) REFERENCES expense(id)

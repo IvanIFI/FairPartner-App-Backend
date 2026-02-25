@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.expense.service;
+package com.ferrinsa.fairpartner.expense.service.domain;
 
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;

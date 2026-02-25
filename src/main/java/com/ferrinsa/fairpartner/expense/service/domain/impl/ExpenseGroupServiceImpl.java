@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.expense.service.impl;
+package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupAccessDeniedException;
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
@@ -9,7 +9,7 @@ import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.model.Participate;
 import com.ferrinsa.fairpartner.expense.repository.ExpenseGroupRepository;
 import com.ferrinsa.fairpartner.expense.repository.ParticipateRepository;
-import com.ferrinsa.fairpartner.expense.service.ExpenseGroupService;
+import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
 import com.ferrinsa.fairpartner.utils.CheckUtils;
 import org.springframework.beans.factory.annotation.Autowired;

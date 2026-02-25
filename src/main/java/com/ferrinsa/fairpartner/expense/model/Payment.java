@@ -5,6 +5,7 @@ import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -24,18 +25,18 @@ public class Payment {
     @JoinColumn(name = "id_expense", nullable = false)
     private Expense expense;
 
-    @Column(nullable = false)
     @Positive
-    private Double cant;
+    @Column(nullable = false)
+    private BigDecimal amount;
 
     public Payment() {
         // Required by JPA
     }
 
-    public Payment(UserEntity user, Expense expense, Double cant) {
+    public Payment(UserEntity user, Expense expense, BigDecimal amount) {
         this.user = user;
         this.expense = expense;
-        this.cant = cant;
+        this.amount = amount;
     }
 
     public PaymentId getIdCompound() {
@@ -62,12 +63,12 @@ public class Payment {
         this.expense = expense;
     }
 
-    public @Positive Double getCant() {
-        return cant;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setCant(@Positive Double cant) {
-        this.cant = cant;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     @Override

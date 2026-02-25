@@ -3,7 +3,7 @@ package com.ferrinsa.fairpartner.expense.controller;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
-import com.ferrinsa.fairpartner.expense.service.ExpenseGroupService;
+import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

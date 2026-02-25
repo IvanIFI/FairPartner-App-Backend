@@ -5,6 +5,7 @@ import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class Expense {
     @JoinColumn(name = "id_category", nullable = false)
     private CategoryEntity category;
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
     private UserEntity createdBy;
     @Column(nullable = false)
     private String name;
@@ -30,9 +31,9 @@ public class Expense {
     private LocalDate date;
     @Column(nullable = false)
     private String icon;
-    @Column(nullable = false)
     @Positive
-    private Double cant;
+    @Column(nullable = false)
+    private BigDecimal amount;
 
     public Expense() {
         // Required by JPA
@@ -43,14 +44,14 @@ public class Expense {
                    UserEntity createdBy,
                    String name,
                    String description,
-                   Double cant,
+                   BigDecimal amount,
                    String icon) {
         this.expenseGroup = expenseGroup;
         this.category = category;
         this.createdBy = createdBy;
         this.name = name;
         this.description = description;
-        this.cant = cant;
+        this.amount = amount;
         this.icon = icon;
     }
 
@@ -110,12 +111,12 @@ public class Expense {
         this.icon = icon;
     }
 
-    public @Positive Double getCant() {
-        return cant;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setCant(@Positive Double cant) {
-        this.cant = cant;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public UserEntity getCreatedBy() {
