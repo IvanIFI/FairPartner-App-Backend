@@ -1,6 +1,5 @@
 package com.ferrinsa.fairpartner.expense.model;
 
-import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

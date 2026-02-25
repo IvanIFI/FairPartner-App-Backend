@@ -4,7 +4,7 @@ import com.ferrinsa.fairpartner.expense.dto.invitation.CreateInvitationRequestDT
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationDetailsResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationSummaryResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationTokenResponseDTO;
-import com.ferrinsa.fairpartner.expense.service.InvitationService;
+import com.ferrinsa.fairpartner.expense.service.domain.InvitationService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

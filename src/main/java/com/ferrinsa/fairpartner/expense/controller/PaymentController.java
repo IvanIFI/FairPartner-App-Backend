@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.expense.controller;
 
-import com.ferrinsa.fairpartner.expense.service.PaymentService;
+import com.ferrinsa.fairpartner.expense.service.domain.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
