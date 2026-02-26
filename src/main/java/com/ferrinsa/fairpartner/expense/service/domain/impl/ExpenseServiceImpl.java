@@ -1,92 +1,88 @@
 package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
-import com.ferrinsa.fairpartner.category.model.CategoryEntity;
-import com.ferrinsa.fairpartner.category.repository.CategoryEntityRepository;
-import com.ferrinsa.fairpartner.exception.category.CategoryNotFoundException;
-import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expense.ExpenseNotFoundException;
-import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
-import com.ferrinsa.fairpartner.expense.repository.ExpenseGroupRepository;
+import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.repository.ExpenseRepository;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseService;
-import com.ferrinsa.fairpartner.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
 
-    /*
-    //FIXME: MOVER Y CREAR UNA CLASE DE CONSTANTES? APPCONSTATS
-    private static final String DEFAULT_ICON = "icon";
-
     private final ExpenseRepository expenseRepository;
-    private final ExpenseGroupRepository expenseGroupRepository;
-    private final CategoryEntityRepository categoryEntityRepository;
 
     @Autowired
-    public ExpenseServiceImpl(ExpenseRepository expenseRepository, ExpenseGroupRepository expenseGroupRepository, CategoryEntityRepository categoryEntityRepository) {
+    public ExpenseServiceImpl(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
-        this.expenseGroupRepository = expenseGroupRepository;
-        this.categoryEntityRepository = categoryEntityRepository;
     }
 
+    @Override
     @Transactional
-    @Override
-    public ExpenseCreatedResponseDTO createExpense(UserEntity authUser,
-                                                   ExpenseCreateRequestDTO expenseCreateRequestDTO) {
-        ExpenseGroup expenseGroup = getExpenseGroupOrThrow(expenseCreateRequestDTO.expenseGroupId());
-        CategoryEntity category = getCategoryOrThrow(expenseCreateRequestDTO.categoryId());
-        String icon = checkIconUserOrDefault(expenseCreateRequestDTO.icon());
-
-        Expense expense = new Expense(
-                expenseGroup,
-                category,
-                authUser,
-                expenseCreateRequestDTO.name(),
-                expenseCreateRequestDTO.description(),
-                expenseCreateRequestDTO.amount(),
-                icon
-        );
-
-        expenseRepository.save(expense);
-
-        return ExpenseCreatedResponseDTO.of(expense);
+    public Expense createExpense(Expense newExpense) {
+        expenseRepository.save(newExpense);
+        return expenseRepository.findById(newExpense.getId())
+                .orElseThrow(() -> new ExpenseNotFoundException(String.valueOf(newExpense.getId())));
     }
 
     @Override
-    public ExpenseResponseDTO getExpenseById(Long id) {
-        Expense expense = getExpenseOrThrow(id);
+    @Transactional
+    public Expense udpateExpense(Long expenseId, Expense expenseNewValues) {
+        Expense expenseUpdate = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ExpenseNotFoundException(String.valueOf(expenseId)));
 
-        return ExpenseResponseDTO.of(expense);
+        expenseUpdate.setName(expenseNewValues.getName());
+        expenseUpdate.setDescription(expenseNewValues.getDescription());
+        expenseUpdate.setCategory(expenseNewValues.getCategory());
+        expenseUpdate.setAmount(expenseNewValues.getAmount());
+
+        return expenseUpdate;
     }
 
-
-
-
-
-
-
-    private Expense getExpenseOrThrow(Long id){
-        return expenseRepository.findById(id)
-                .orElseThrow(() -> new ExpenseNotFoundException(Long.toString(id)));
+    @Override
+    @Transactional
+    public void deleteExpense(Long expenseToDeleteId) {
+        if (!expenseRepository.existsById(expenseToDeleteId)) {
+            throw new ExpenseNotFoundException(String.valueOf(expenseToDeleteId));
+        }
+        expenseRepository.deleteById(expenseToDeleteId);
     }
 
-    private ExpenseGroup getExpenseGroupOrThrow(Long id) {
-        return expenseGroupRepository.findById(id)
-                .orElseThrow(() -> new ExpenseGroupNotFoundException(id.toString()));
+    @Override
+    public Expense findById(Long expenseId) {
+        return expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ExpenseNotFoundException(String.valueOf(expenseId)));
     }
 
-    private CategoryEntity getCategoryOrThrow(Long id) {
-        return categoryEntityRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(id.toString()));
+    @Override
+    public List<Expense> findByGroupId(Long expenseGroupId) {
+        return expenseRepository.findByExpenseGroupId(expenseGroupId);
     }
 
-    private String checkIconUserOrDefault(String icon) {
-        return (icon == null || icon.isBlank()) ? DEFAULT_ICON : icon;
+    @Override
+    public List<Expense> findByName(String name) {
+        return expenseRepository.findByName(name);
     }
 
-    */
+    @Override
+    public List<Expense> findByCategoryId(Long categoryId) {
+        return expenseRepository.findByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<Expense> findByDateBetween(LocalDate startDate, LocalDate endDate) {
+        return expenseRepository.findByDateBetween(startDate, endDate);
+    }
+
+    @Override
+    public List<Expense> findByAmountBetween(BigDecimal min, BigDecimal max) {
+        return expenseRepository.findByAmountBetween(min, max);
+    }
 
 }

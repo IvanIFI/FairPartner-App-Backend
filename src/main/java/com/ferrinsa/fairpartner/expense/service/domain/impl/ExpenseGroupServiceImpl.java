@@ -100,7 +100,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
             throw new ExpenseGroupAccessDeniedException(String.valueOf(authUserId), String.valueOf(expenseGroupId));
         }
 
-        this.checkFieldsToUpdateExpenseGroup(expenseGroupToUpdate, updateExpenseGroupRequestDTO);
+        this.checkFieldsAndUpdateExpenseGroup(expenseGroupToUpdate, updateExpenseGroupRequestDTO);
 
         return ExpenseGroupResponseDTO.of(expenseGroupToUpdate);
     }
@@ -114,7 +114,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
         }
     }
 
-    private void checkFieldsToUpdateExpenseGroup(ExpenseGroup expenseGroupToUpdate
+    private void checkFieldsAndUpdateExpenseGroup(ExpenseGroup expenseGroupToUpdate
             , UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO) {
         if (updateExpenseGroupRequestDTO.name() != null) {
             CheckUtils.isValidSize("name", updateExpenseGroupRequestDTO.name(), 20);
