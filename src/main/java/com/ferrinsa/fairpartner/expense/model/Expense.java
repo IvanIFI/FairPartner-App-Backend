@@ -28,7 +28,7 @@ public class Expense {
     private String name;
     private String description;
     @Column(insertable = false, updatable = false, nullable = false)
-    private LocalDate date;
+    private LocalDate createdDate;
     @Column(nullable = false)
     private String icon;
     @Positive
@@ -95,12 +95,12 @@ public class Expense {
         this.description = description;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getIcon() {

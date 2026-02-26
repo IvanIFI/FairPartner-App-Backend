@@ -1,10 +1,5 @@
 package com.ferrinsa.fairpartner.exception.expense.expense;
 
-import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupAccessDeniedException;
-import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
-import com.ferrinsa.fairpartner.exception.expense.expensegroup.ParticipationAlreadyExistsException;
-import com.ferrinsa.fairpartner.exception.expense.expensegroup.UserNotMemberOfGroupException;
-import com.ferrinsa.fairpartner.exception.expense.invitation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
