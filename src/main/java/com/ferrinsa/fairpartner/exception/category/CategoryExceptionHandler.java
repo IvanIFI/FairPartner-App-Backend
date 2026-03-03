@@ -23,4 +23,5 @@ public class CategoryExceptionHandler {
         problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }
+
 }

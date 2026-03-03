@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ExpenseShareServiceImpl implements ExpenseShareService {
 
-    ExpenseShareRepository expenseShareRepository;
+    private final ExpenseShareRepository expenseShareRepository;
 
     @Autowired
     public ExpenseShareServiceImpl(ExpenseShareRepository expenseShareRepository) {
