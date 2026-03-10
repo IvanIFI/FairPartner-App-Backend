@@ -28,16 +28,19 @@ public class BalanceServiceImpl implements BalanceService {
     private final ExpenseShareRepository expenseShareRepository;
     private final PaymentRepository paymentRepository;
     private final ParticipateRepository participateRepository;
+    private final SettlementRepository settlementRepository;
 
     @Autowired
     public BalanceServiceImpl(ExpenseRepository expenseRepository,
                               ExpenseShareRepository expenseShareRepository,
                               PaymentRepository paymentRepository,
-                              ParticipateRepository participateRepository) {
+                              ParticipateRepository participateRepository,
+                              SettlementRepository settlementRepository) {
         this.expenseRepository = expenseRepository;
         this.expenseShareRepository = expenseShareRepository;
         this.paymentRepository = paymentRepository;
         this.participateRepository = participateRepository;
+        this.settlementRepository = settlementRepository;
     }
 
     @Override
@@ -76,10 +79,22 @@ public class BalanceServiceImpl implements BalanceService {
         BigDecimal totalPaymentsUserA = obtainTotalPaymentByUser(userA.getId(), expenseGroupId);
         BigDecimal totalPaymentsUserB = obtainTotalPaymentByUser(userB.getId(), expenseGroupId);
 
+        BigDecimal totalSettlementSentUserA = obtainTotalSettlementSentByUser(userA.getId(), expenseGroupId);
+        BigDecimal totalSettlementReceivedUserA = obtainTotalSettlementReceivedByUser(userA.getId(), expenseGroupId);
+        BigDecimal totalSettlementSentUserB = obtainTotalSettlementSentByUser(userB.getId(), expenseGroupId);
+        BigDecimal totalSettlementReceivedUserB = obtainTotalSettlementReceivedByUser(userB.getId(), expenseGroupId);
+
         BigDecimal balanceUserA = totalAmountUserA.subtract(totalPaymentsUserA);
         BigDecimal balanceUserB = totalAmountUserB.subtract(totalPaymentsUserB);
 
-        return this.validateAndObtainBalanceResultForTwo(userA, balanceUserA, userB, balanceUserB);
+        BigDecimal balanceAdjustedUserA = balanceUserA
+                .add(totalSettlementReceivedUserA)
+                .subtract(totalSettlementSentUserA);
+        BigDecimal balanceAdjustedUserB = balanceUserB
+                .add(totalSettlementReceivedUserB)
+                .subtract(totalSettlementSentUserB);
+
+        return this.validateAndObtainBalanceResultForTwo(userA, balanceAdjustedUserA, userB, balanceAdjustedUserB);
     }
 
     private BigDecimal obtainTotalAmountByUser(Long userId, Long expenseGroupId) {
@@ -88,6 +103,14 @@ public class BalanceServiceImpl implements BalanceService {
 
     private BigDecimal obtainTotalPaymentByUser(Long userId, Long expenseGroupId) {
         return paymentRepository.sumAmountByUserAndGroup(userId, expenseGroupId);
+    }
+
+    private BigDecimal obtainTotalSettlementSentByUser(Long fromUserId, Long expenseGroupId) {
+        return settlementRepository.sumAmountSentByUserAndGroup(fromUserId, expenseGroupId);
+    }
+
+    private BigDecimal obtainTotalSettlementReceivedByUser(Long toUserId, Long expenseGroupId) {
+        return settlementRepository.sumAmountReceivedByUserAndGroup(toUserId, expenseGroupId);
     }
 
     private BigDecimal obtainTotalAmountExpenseByExpenseGroup(Long expenseGroupId) {
