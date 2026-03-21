@@ -12,14 +12,12 @@ public interface ExpenseCoordinatorService {
     Expense createExpense(Long authUserID,
                           CreateExpenseRequestDTO createExpenseRequestDTO);
 
-    void deleteExpense(Long authUserId, Long expenseId);
-
-    Expense updateExpense(Long authUserId,
-                                            Long expenseId,
-                                            UpdateExpenseRequestDTO updateExpenseRequestDTO);
-
     Expense getExpenseDetails(Long authUserId, Long expenseId);
 
     ExpensesWithBalances getListExpenses(Long authUserId, Long expenseGroupId);
+
+    void deleteExpense(Long authUserId, Long expenseId);
+
+    Expense updateExpense(Long authUserId, Long expenseId, UpdateExpenseRequestDTO updateExpenseRequestDTO);
 
 }

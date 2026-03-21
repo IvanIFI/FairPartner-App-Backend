@@ -96,6 +96,33 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
     }
 
     @Override
+    public Expense getExpenseDetails(Long authUserId, Long expenseId) {
+        Expense expense = expenseService.findById(expenseId);
+
+        if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expense.getExpenseGroup().getId())) {
+            throw new UserNotMemberOfGroupException(
+                    String.valueOf(authUserId),
+                    String.valueOf(expense.getExpenseGroup().getId()));
+        }
+
+        return expense;
+    }
+
+    @Override
+    public ExpensesWithBalances getListExpenses(Long authUserId, Long expenseGroupId) {
+        if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expenseGroupId)) {
+            throw new UserNotMemberOfGroupException(
+                    String.valueOf(authUserId),
+                    String.valueOf(expenseGroupId));
+        }
+
+        List<Expense> expensesList = expenseService.findByGroupId(expenseGroupId);
+        List<UserBalanceResult> balancesList = balanceService.obtainUsersBalance(expenseGroupId);
+
+        return new ExpensesWithBalances(expensesList, balancesList);
+    }
+
+    @Override
     @Transactional
     public void deleteExpense(Long authUserId, Long expenseId) {
         Expense expenseToDelete = expenseService.findById(expenseId);
@@ -128,33 +155,6 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         this.createExpenseShares(expenseToUpdate, updateExpenseRequestDTO.expenseShares());
 
         return expenseToUpdate;
-    }
-
-    @Override
-    public Expense getExpenseDetails(Long authUserId, Long expenseId) {
-        Expense expense = expenseService.findById(expenseId);
-
-        if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expense.getExpenseGroup().getId())) {
-            throw new UserNotMemberOfGroupException(
-                    String.valueOf(authUserId),
-                    String.valueOf(expense.getExpenseGroup().getId()));
-        }
-
-        return expense;
-    }
-
-    @Override
-    public ExpensesWithBalances getListExpenses(Long authUserId, Long expenseGroupId) {
-        if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expenseGroupId)) {
-            throw new UserNotMemberOfGroupException(
-                    String.valueOf(authUserId),
-                    String.valueOf(expenseGroupId));
-        }
-
-        List<Expense> expensesList = expenseService.findByGroupId(expenseGroupId);
-        List<UserBalanceResult> balancesList = balanceService.obtainUsersBalance(expenseGroupId);
-
-        return new ExpensesWithBalances(expensesList, balancesList);
     }
 
     private void validateCreateRequestDto(Long authUserId, CreateExpenseRequestDTO createExpenseRequestDTO) {
