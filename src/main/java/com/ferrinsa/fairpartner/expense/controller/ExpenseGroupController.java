@@ -3,6 +3,7 @@ package com.ferrinsa.fairpartner.expense.controller;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
+import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.validation.Valid;
@@ -22,11 +23,11 @@ import java.util.List;
 @RequestMapping("/expense-groups")
 public class ExpenseGroupController {
 
-    private final ExpenseGroupService expenseServiceGroup;
+    private final ExpenseGroupService expenseGroupService;
 
     @Autowired
-    public ExpenseGroupController(ExpenseGroupService expenseServiceGroup) {
-        this.expenseServiceGroup = expenseServiceGroup;
+    public ExpenseGroupController(ExpenseGroupService expenseGroupService) {
+        this.expenseGroupService = expenseGroupService;
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -34,22 +35,25 @@ public class ExpenseGroupController {
     public ResponseEntity<ExpenseGroupResponseDTO> createNewExpenseGroup(
             @AuthenticationPrincipal UserEntity authUser,
             @Valid @RequestBody NewExpenseGroupRequestDTO newGroupRequestDTO) {
-        ExpenseGroupResponseDTO createdGroup =
-                expenseServiceGroup.createExpenseGroup(authUser.getId(), newGroupRequestDTO);
+        ExpenseGroup createdGroup =
+                expenseGroupService.createExpenseGroup(authUser.getId(), newGroupRequestDTO);
 
         URI locationNewGroup = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdGroup.id())
+                .buildAndExpand(createdGroup.getId())
                 .toUri();
-        return ResponseEntity.created(locationNewGroup).body(createdGroup);
+        return ResponseEntity.created(locationNewGroup).body(ExpenseGroupResponseDTO.of(createdGroup));
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me/groups")
     public ResponseEntity<List<ExpenseGroupResponseDTO>> getExpenseGroups(
             @AuthenticationPrincipal UserEntity authUser) {
-        return ResponseEntity.ok(expenseServiceGroup.findExpenseGroupsByUser(authUser.getId()));
+        List<ExpenseGroupResponseDTO> expenseGroupResponseDTOs = expenseGroupService
+                .findExpenseGroupsByUser(authUser.getId()).stream().map(ExpenseGroupResponseDTO::of).toList();
+
+        return ResponseEntity.ok(expenseGroupResponseDTOs);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -57,7 +61,8 @@ public class ExpenseGroupController {
     public ResponseEntity<ExpenseGroupResponseDTO> getExpenseGroup(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long groupId) {
-        return ResponseEntity.ok(expenseServiceGroup.findExpenseGroupById(authUser.getId(), groupId));
+        return ResponseEntity.ok(
+                ExpenseGroupResponseDTO.of(expenseGroupService.findExpenseGroupById(authUser.getId(), groupId)));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -66,15 +71,15 @@ public class ExpenseGroupController {
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long groupId,
             @Valid @RequestBody UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO) {
-        return ResponseEntity.ok(
-                expenseServiceGroup.updateExpenseGroup(authUser.getId(), groupId, updateExpenseGroupRequestDTO));
+        return ResponseEntity.ok(ExpenseGroupResponseDTO.of(
+                expenseGroupService.updateExpenseGroup(authUser.getId(), groupId, updateExpenseGroupRequestDTO)));
     }
 
     @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/me/groups/{groupId}")
     public ResponseEntity<Void> deleteExpenseGroup(@AuthenticationPrincipal UserEntity authUser,
                                                    @PathVariable Long groupId) {
-        expenseServiceGroup.leaveCurrentUserFromExpenseGroup(authUser.getId(), groupId);
+        expenseGroupService.leaveCurrentUserFromExpenseGroup(authUser.getId(), groupId);
         return ResponseEntity.noContent().build();
     }
 

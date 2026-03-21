@@ -35,14 +35,13 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
     }
 
     @Override
-    public List<ExpenseGroupResponseDTO> findExpenseGroupsByUser(Long authUserId) {
-        List<ExpenseGroup> groupsByCurrentUser = participateRepository
+    public List<ExpenseGroup> findExpenseGroupsByUser(Long authUserId) {
+        return participateRepository
                 .findExpenseGroupsWithUsersByUserId(authUserId);
-        return groupsByCurrentUser.stream().map(ExpenseGroupResponseDTO::of).toList();
     }
 
     @Override
-    public ExpenseGroupResponseDTO findExpenseGroupById(Long authUserId, Long expenseGroupId) {
+    public ExpenseGroup findExpenseGroupById(Long authUserId, Long expenseGroupId) {
 
         ExpenseGroup expenseGroupFound = expenseGroupRepository.findById(expenseGroupId)
                 .orElseThrow(() -> new ExpenseGroupNotFoundException(String.valueOf(expenseGroupId)));
@@ -55,12 +54,12 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
             throw new ExpenseGroupAccessDeniedException(String.valueOf(authUserId), String.valueOf(expenseGroupId));
         }
 
-        return ExpenseGroupResponseDTO.of(expenseGroupFound);
+        return expenseGroupFound;
     }
 
     @Override
     @Transactional
-    public ExpenseGroupResponseDTO createExpenseGroup(Long authUserId,
+    public ExpenseGroup createExpenseGroup(Long authUserId,
                                                       NewExpenseGroupRequestDTO newExpenseGroupRequestDTO) {
         ExpenseGroup newExpenseGroup = new ExpenseGroup(
                 newExpenseGroupRequestDTO.name(),
@@ -73,7 +72,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
         newExpenseGroup.addParticipate(newParticipate);
         participateRepository.save(newParticipate);
 
-        return ExpenseGroupResponseDTO.of(newExpenseGroup);
+        return newExpenseGroup;
     }
 
     @Override
@@ -86,7 +85,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
 
     @Override
     @Transactional
-    public ExpenseGroupResponseDTO updateExpenseGroup(Long authUserId,
+    public ExpenseGroup updateExpenseGroup(Long authUserId,
                                                       Long expenseGroupId,
                                                       UpdateExpenseGroupRequestDTO updateExpenseGroupRequestDTO) {
         ExpenseGroup expenseGroupToUpdate = expenseGroupRepository.findById(expenseGroupId)
@@ -102,7 +101,7 @@ public class ExpenseGroupServiceImpl implements ExpenseGroupService {
 
         this.checkFieldsAndUpdateExpenseGroup(expenseGroupToUpdate, updateExpenseGroupRequestDTO);
 
-        return ExpenseGroupResponseDTO.of(expenseGroupToUpdate);
+        return expenseGroupToUpdate;
     }
 
     private void checkAndDeleteExpenseGroup(Long expenseGroupId) {
