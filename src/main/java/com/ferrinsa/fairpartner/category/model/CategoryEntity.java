@@ -7,6 +7,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "category")
 public class CategoryEntity {
+    // Temporary constant used for MVP purposes only.
+    public static final String DEFAULT_CATEGORY_NAME = "DEFAULT";
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

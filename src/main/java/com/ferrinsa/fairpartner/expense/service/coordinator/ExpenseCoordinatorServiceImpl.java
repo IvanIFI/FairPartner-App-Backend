@@ -2,6 +2,7 @@ package com.ferrinsa.fairpartner.expense.service.coordinator;
 
 import com.ferrinsa.fairpartner.category.model.CategoryEntity;
 import com.ferrinsa.fairpartner.category.repository.CategoryEntityRepository;
+import com.ferrinsa.fairpartner.category.service.CategoryEntityService;
 import com.ferrinsa.fairpartner.exception.category.CategoryNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expense.UserNotExpenseOwnerException;
 import com.ferrinsa.fairpartner.exception.expenseshare.ExpenseShareIntegrityException;
@@ -42,8 +43,8 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
     private final ExpenseShareService expenseShareService;
     private final ExpenseGroupService expenseGroupService;
     private final BalanceService balanceService;
+    private final CategoryEntityService categoryEntityService;
     private final ParticipateRepository participateRepository;
-    private final CategoryEntityRepository categoryEntityRepository;
 
     @Autowired
     public ExpenseCoordinatorServiceImpl(UserService userService,
@@ -52,16 +53,16 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
                                          ExpenseShareService expenseShareService,
                                          ExpenseGroupService expenseGroupService,
                                          BalanceService balanceService,
-                                         ParticipateRepository participateRepository,
-                                         CategoryEntityRepository categoryEntityRepository) {
+                                         CategoryEntityService categoryEntityService,
+                                         ParticipateRepository participateRepository) {
         this.userService = userService;
         this.expenseService = expenseService;
         this.paymentService = paymentService;
         this.expenseShareService = expenseShareService;
         this.expenseGroupService = expenseGroupService;
         this.balanceService = balanceService;
+        this.categoryEntityService = categoryEntityService;
         this.participateRepository = participateRepository;
-        this.categoryEntityRepository = categoryEntityRepository;
     }
 
     @Override
@@ -72,9 +73,9 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         ExpenseGroup expenseGroup = expenseGroupService.findExpenseGroupById(
                 authUserID,
                 createExpenseRequestDTO.expenseGroupId());
-        CategoryEntity category = categoryEntityRepository.findById(createExpenseRequestDTO.categoryId())
-                .orElseThrow(() -> new CategoryNotFoundException(String.valueOf(
-                        createExpenseRequestDTO.categoryId())));
+        // For MVP purposes, the category is fixed to DEFAULT.
+        // In future implementations, category should be selected dynamically using findCategoryById.
+        CategoryEntity category = categoryEntityService.getDefaultCategory();
         UserEntity creatorUser = userService.findUserById(authUserID);
         UserEntity payerUser = userService.findUserById(createExpenseRequestDTO.payerUserId());
 
@@ -111,9 +112,9 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         Expense expenseToUpdate = expenseService.findById(expenseId);
         this.validateUpdateRequestDTO(authUserId, expenseToUpdate, updateExpenseRequestDTO);
 
-        CategoryEntity categoryToUpdate = categoryEntityRepository.findById(updateExpenseRequestDTO.categoryId())
-                .orElseThrow(() -> new CategoryNotFoundException(String.valueOf(
-                        updateExpenseRequestDTO.categoryId())));
+        // For MVP purposes, the category is fixed to DEFAULT.
+        // In future implementations, category should be selected dynamically using findCategoryById.
+        CategoryEntity categoryToUpdate = categoryEntityService.getDefaultCategory();
         expenseToUpdate.setCategory(categoryToUpdate);
         expenseToUpdate.setName(updateExpenseRequestDTO.name());
         expenseToUpdate.setDescription(updateExpenseRequestDTO.description());
