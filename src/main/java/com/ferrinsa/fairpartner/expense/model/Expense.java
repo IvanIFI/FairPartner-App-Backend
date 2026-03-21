@@ -13,7 +13,14 @@ import java.util.Objects;
 @Table(name = "expense")
 public class Expense {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*
+     *Temporary default icon used for MVP. In future versions, the icon will be dynamically determined
+     * based on expense attributes (e.g., category or name).
+     */
+    private static final String DEFAULT_ICON = "default_icon";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "id_expense_group", nullable = false)
@@ -44,15 +51,14 @@ public class Expense {
                    UserEntity createdBy,
                    String name,
                    String description,
-                   BigDecimal amount,
-                   String icon) {
+                   BigDecimal amount) {
         this.expenseGroup = expenseGroup;
         this.category = category;
         this.createdBy = createdBy;
         this.name = name;
         this.description = description;
         this.amount = amount;
-        this.icon = icon;
+        this.icon = DEFAULT_ICON;
     }
 
     public Long getId() {
