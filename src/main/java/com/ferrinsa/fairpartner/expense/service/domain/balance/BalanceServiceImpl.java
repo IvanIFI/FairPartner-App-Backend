@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.expense.service.domain.balance;
 
-import com.ferrinsa.fairpartner.exception.balance.ExpenseShareIntegrityException;
+import com.ferrinsa.fairpartner.exception.expenseshare.ExpenseShareIntegrityException;
 import com.ferrinsa.fairpartner.exception.balance.UnsupportedParticipantsNumberException;
 import com.ferrinsa.fairpartner.expense.repository.*;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.model.UserBalanceResult;

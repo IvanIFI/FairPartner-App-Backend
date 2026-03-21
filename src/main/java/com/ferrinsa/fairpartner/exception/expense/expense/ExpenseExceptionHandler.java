@@ -14,12 +14,22 @@ public class ExpenseExceptionHandler {
     private static final String ERROR_TYPE_BASE_URI = "https://ferrinsa.api/errors/expense/";
 
     private static final String TITLE_EXPENSE_NOT_FOUND = "Gasto no encontrado";
+    private static final String TITLE_USER_NOT_EXPENSE_OWNER = "Gasto no creado por el usuario";
 
     @ExceptionHandler(ExpenseNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ProblemDetail handleExpenseNotFoundException(ExpenseNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setTitle(TITLE_EXPENSE_NOT_FOUND);
+        problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(UserNotExpenseOwnerException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ProblemDetail handleUserNotExpenseOwnerException(UserNotExpenseOwnerException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle(TITLE_USER_NOT_EXPENSE_OWNER);
         problemDetail.setType(URI.create(ERROR_TYPE_BASE_URI + ex.getCode()));
         return problemDetail;
     }

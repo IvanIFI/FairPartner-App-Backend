@@ -1,9 +1,6 @@
 package com.ferrinsa.fairpartner.expense.service.coordinator;
 
-import com.ferrinsa.fairpartner.expense.dto.expense.CreateExpenseRequestDTO;
-import com.ferrinsa.fairpartner.expense.dto.expense.ExpenseDetailsResponseDTO;
-import com.ferrinsa.fairpartner.expense.dto.expense.ExpenseSummaryResponseDTO;
-import com.ferrinsa.fairpartner.expense.dto.expense.UpdateExpenseRequestDTO;
+import com.ferrinsa.fairpartner.expense.dto.expense.*;
 
 import java.util.List;
 
@@ -21,6 +18,6 @@ public interface ExpenseCoordinatorService {
 
     ExpenseDetailsResponseDTO getExpenseDetails(Long authUserId, Long expenseId);
 
-    List<ExpenseSummaryResponseDTO> getListExpenses(Long authUserId, Long expenseGroupId);
+    ExpenseListWithBalanceResponseDTO getListExpenses(Long authUserId, Long expenseGroupId);
 
 }

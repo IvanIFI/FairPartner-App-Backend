@@ -1,4 +1,4 @@
-package com.ferrinsa.fairpartner.exception.balance;
+package com.ferrinsa.fairpartner.exception.expenseshare;
 
 import com.ferrinsa.fairpartner.exception.AppException;
 
