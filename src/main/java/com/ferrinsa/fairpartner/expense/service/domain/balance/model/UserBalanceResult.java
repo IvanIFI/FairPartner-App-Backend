@@ -4,5 +4,7 @@ import com.ferrinsa.fairpartner.user.model.UserEntity;
 
 import java.math.BigDecimal;
 
-public record UserBalanceResult(UserEntity user, BigDecimal balance) {
+public record UserBalanceResult(
+        UserEntity user,
+        BigDecimal balance) {
 }

@@ -1,9 +1,7 @@
 package com.ferrinsa.fairpartner.expense.service.coordinator;
 
 import com.ferrinsa.fairpartner.category.model.CategoryEntity;
-import com.ferrinsa.fairpartner.category.repository.CategoryEntityRepository;
 import com.ferrinsa.fairpartner.category.service.CategoryEntityService;
-import com.ferrinsa.fairpartner.exception.category.CategoryNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.expense.UserNotExpenseOwnerException;
 import com.ferrinsa.fairpartner.exception.expenseshare.ExpenseShareIntegrityException;
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupAccessDeniedException;
@@ -15,6 +13,7 @@ import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.model.ExpenseShare;
 import com.ferrinsa.fairpartner.expense.model.Payment;
+import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpensesWithBalances;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.BalanceService;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.model.UserBalanceResult;
@@ -67,7 +66,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
 
     @Override
     @Transactional
-    public ExpenseDetailsResponseDTO createExpense(Long authUserID, CreateExpenseRequestDTO createExpenseRequestDTO) {
+    public Expense createExpense(Long authUserID, CreateExpenseRequestDTO createExpenseRequestDTO) {
         this.validateCreateRequestDto(authUserID, createExpenseRequestDTO);
 
         ExpenseGroup expenseGroup = expenseGroupService.findExpenseGroupById(
@@ -93,7 +92,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         Payment payment = new Payment(payerUser, expenseCreated, createExpenseRequestDTO.amount());
         paymentService.createPayment(payment);
 
-        return ExpenseDetailsResponseDTO.of(expenseCreated);
+        return expenseCreated;
     }
 
     @Override
@@ -106,7 +105,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
 
     @Override
     @Transactional
-    public ExpenseDetailsResponseDTO updateExpense(Long authUserId,
+    public Expense updateExpense(Long authUserId,
                                                    Long expenseId,
                                                    UpdateExpenseRequestDTO updateExpenseRequestDTO) {
         Expense expenseToUpdate = expenseService.findById(expenseId);
@@ -128,11 +127,11 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         expenseShareService.deleteByExpenseId(expenseId);
         this.createExpenseShares(expenseToUpdate, updateExpenseRequestDTO.expenseShares());
 
-        return ExpenseDetailsResponseDTO.of(expenseToUpdate);
+        return expenseToUpdate;
     }
 
     @Override
-    public ExpenseDetailsResponseDTO getExpenseDetails(Long authUserId, Long expenseId) {
+    public Expense getExpenseDetails(Long authUserId, Long expenseId) {
         Expense expense = expenseService.findById(expenseId);
 
         if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expense.getExpenseGroup().getId())) {
@@ -141,22 +140,21 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
                     String.valueOf(expense.getExpenseGroup().getId()));
         }
 
-        return ExpenseDetailsResponseDTO.of(expense);
+        return expense;
     }
 
     @Override
-    public ExpenseListWithBalanceResponseDTO getListExpenses(Long authUserId, Long expenseGroupId) {
+    public ExpensesWithBalances getListExpenses(Long authUserId, Long expenseGroupId) {
         if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expenseGroupId)) {
             throw new UserNotMemberOfGroupException(
                     String.valueOf(authUserId),
                     String.valueOf(expenseGroupId));
         }
 
-        List<ExpenseSummaryResponseDTO> expensesList = expenseService.findByGroupId(expenseGroupId)
-                .stream().map(ExpenseSummaryResponseDTO::of).toList();
+        List<Expense> expensesList = expenseService.findByGroupId(expenseGroupId);
         List<UserBalanceResult> balancesList = balanceService.obtainUsersBalance(expenseGroupId);
 
-        return new ExpenseListWithBalanceResponseDTO(expensesList, balancesList);
+        return new ExpensesWithBalances(expensesList, balancesList);
     }
 
     private void validateCreateRequestDto(Long authUserId, CreateExpenseRequestDTO createExpenseRequestDTO) {

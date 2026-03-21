@@ -6,6 +6,6 @@ import java.util.List;
 
 public record ExpenseListWithBalanceResponseDTO(
         List<ExpenseSummaryResponseDTO> expenses,
-        List<UserBalanceResult> balances
+        List<UserBalanceResultDTO> balances
 ) {
 }
