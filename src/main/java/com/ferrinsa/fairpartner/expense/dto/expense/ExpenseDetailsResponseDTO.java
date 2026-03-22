@@ -1,9 +1,11 @@
 package com.ferrinsa.fairpartner.expense.dto.expense;
 
 import com.ferrinsa.fairpartner.expense.model.Expense;
+import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public record ExpenseDetailsResponseDTO(
         Long id,
@@ -14,10 +16,13 @@ public record ExpenseDetailsResponseDTO(
         String description,
         String icon,
         LocalDate createdDate,
-        BigDecimal amount
+        BigDecimal amount,
+        Long payerId,
+        List<ExpenseShareResponseDTO> expenseShares
 ) {
 
-    public static ExpenseDetailsResponseDTO of(Expense expense) {
+    public static ExpenseDetailsResponseDTO of(ExpenseWithSharesAndPayer expenseWithSharesAndPayer) {
+        Expense expense = expenseWithSharesAndPayer.expense();
         return new ExpenseDetailsResponseDTO(
                 expense.getId(),
                 expense.getExpenseGroup().getName(),
@@ -27,7 +32,11 @@ public record ExpenseDetailsResponseDTO(
                 expense.getDescription(),
                 expense.getIcon(),
                 expense.getCreatedDate(),
-                expense.getAmount()
+                expense.getAmount(),
+                expenseWithSharesAndPayer.payer().getId(),
+                expenseWithSharesAndPayer.shares().stream()
+                        .map(ExpenseShareResponseDTO::of)
+                        .toList()
         );
     }
 

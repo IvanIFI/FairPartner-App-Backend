@@ -3,6 +3,7 @@ package com.ferrinsa.fairpartner.expense.controller;
 import com.ferrinsa.fairpartner.expense.dto.expense.*;
 import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.service.coordinator.ExpenseCoordinatorService;
+import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,12 +35,14 @@ public class ExpenseController {
     public ResponseEntity<ExpenseDetailsResponseDTO> createNewExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @Valid @RequestBody CreateExpenseRequestDTO createExpenseRequestDTO) {
-        Expense createExpense = expenseCoordinatorService.createExpense(authUser.getId(), createExpenseRequestDTO);
+        ExpenseWithSharesAndPayer createExpense = expenseCoordinatorService.createExpense(
+                authUser.getId(),
+                createExpenseRequestDTO);
 
         URI locationNewExpense = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createExpense.getId())
+                .buildAndExpand(createExpense.expense().getId())
                 .toUri();
 
         return ResponseEntity.created(locationNewExpense).body(ExpenseDetailsResponseDTO.of(createExpense));
@@ -50,7 +53,7 @@ public class ExpenseController {
     public ResponseEntity<ExpenseDetailsResponseDTO> getExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseId) {
-        Expense expense = expenseCoordinatorService.getExpenseDetails(authUser.getId(), expenseId);
+        ExpenseWithSharesAndPayer expense = expenseCoordinatorService.getExpenseDetails(authUser.getId(), expenseId);
         return ResponseEntity.ok(ExpenseDetailsResponseDTO.of(expense));
     }
 
@@ -79,7 +82,7 @@ public class ExpenseController {
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseId,
             @Valid @RequestBody UpdateExpenseRequestDTO updateExpenseRequestDTO) {
-        Expense expenseUpdated = expenseCoordinatorService.updateExpense(
+        ExpenseWithSharesAndPayer expenseUpdated = expenseCoordinatorService.updateExpense(
                 authUser.getId(),
                 expenseId,
                 updateExpenseRequestDTO);

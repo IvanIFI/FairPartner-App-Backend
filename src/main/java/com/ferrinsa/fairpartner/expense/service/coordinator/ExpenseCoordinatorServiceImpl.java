@@ -13,6 +13,7 @@ import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.model.ExpenseShare;
 import com.ferrinsa.fairpartner.expense.model.Payment;
+import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.BalanceService;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,7 +68,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
 
     @Override
     @Transactional
-    public Expense createExpense(Long authUserID, CreateExpenseRequestDTO createExpenseRequestDTO) {
+    public ExpenseWithSharesAndPayer createExpense(Long authUserID, CreateExpenseRequestDTO createExpenseRequestDTO) {
         this.validateCreateRequestDto(authUserID, createExpenseRequestDTO);
 
         ExpenseGroup expenseGroup = expenseGroupService.findExpenseGroupById(
@@ -87,17 +89,18 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
                 createExpenseRequestDTO.amount());
         expenseService.createExpense(expenseCreated);
 
-        List<ExpenseShareRequest> expenseShares = mapToExpenseShareRequest(createExpenseRequestDTO.expenseShares());
-        this.createExpenseShares(expenseCreated, expenseShares);
+        List<ExpenseShareRequest> expenseSharesRequestList =
+                this.mapToExpenseShareRequest(createExpenseRequestDTO.expenseShares());
+        List<ExpenseShare> expenseSharesList = this.createExpenseShares(expenseCreated, expenseSharesRequestList);
 
         Payment payment = new Payment(payerUser, expenseCreated, createExpenseRequestDTO.amount());
         paymentService.createPayment(payment);
 
-        return expenseCreated;
+        return new ExpenseWithSharesAndPayer(expenseCreated, expenseSharesList,payment.getUser());
     }
 
     @Override
-    public Expense getExpenseDetails(Long authUserId, Long expenseId) {
+    public ExpenseWithSharesAndPayer getExpenseDetails(Long authUserId, Long expenseId) {
         Expense expense = expenseService.findById(expenseId);
 
         if (!participateRepository.existsByUserIdAndExpenseGroupId(authUserId, expense.getExpenseGroup().getId())) {
@@ -106,7 +109,10 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
                     String.valueOf(expense.getExpenseGroup().getId()));
         }
 
-        return expense;
+        List<ExpenseShare> expenseShares = expenseShareService.findByExpenseId(expenseId);
+        Payment payment = paymentService.findByExpenseId(expenseId);
+
+        return new ExpenseWithSharesAndPayer(expense,expenseShares,payment.getUser());
     }
 
     @Override
@@ -133,7 +139,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
 
     @Override
     @Transactional
-    public Expense updateExpense(Long authUserId,
+    public ExpenseWithSharesAndPayer updateExpense(Long authUserId,
                                                    Long expenseId,
                                                    UpdateExpenseRequestDTO updateExpenseRequestDTO) {
         Expense expenseToUpdate = expenseService.findById(expenseId);
@@ -153,10 +159,11 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         paymentService.createPayment(paymentUpdated);
 
         expenseShareService.deleteByExpenseId(expenseId);
-        List<ExpenseShareRequest> expenseShares = mapToExpenseShareRequest(updateExpenseRequestDTO.expenseShares());
-        this.createExpenseShares(expenseToUpdate, expenseShares);
+        List<ExpenseShareRequest> expenseSharesRequestList =
+                this.mapToExpenseShareRequest(updateExpenseRequestDTO.expenseShares());
+        List<ExpenseShare> expenseSharesList = this.createExpenseShares(expenseToUpdate, expenseSharesRequestList);
 
-        return expenseToUpdate;
+        return new ExpenseWithSharesAndPayer(expenseToUpdate, expenseSharesList,paymentUpdated.getUser());
     }
 
     private void validateCreateRequestDto(Long authUserId, CreateExpenseRequestDTO createExpenseRequestDTO) {
@@ -272,13 +279,18 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         }
     }
 
-    private void createExpenseShares(Expense expenseCreated, List<ExpenseShareRequest> expenseShares) {
+    private List<ExpenseShare> createExpenseShares(Expense expenseCreated, List<ExpenseShareRequest> expenseShares) {
+        List<ExpenseShare> expenseShareList = new ArrayList<>();
+
         for (ExpenseShareRequest expenseShareDto : expenseShares) {
             UserEntity user = userService.findUserById(expenseShareDto.userId());
 
             ExpenseShare expenseShare = new ExpenseShare(user, expenseCreated, expenseShareDto.amount());
             expenseShareService.createExpenseShare(expenseShare);
+            expenseShareList.add(expenseShare);
         }
+
+        return expenseShareList;
     }
 
     private List<ExpenseShareRequest> mapToExpenseShareRequest(List<ExpenseShareRequestDTO> dtoList) {
