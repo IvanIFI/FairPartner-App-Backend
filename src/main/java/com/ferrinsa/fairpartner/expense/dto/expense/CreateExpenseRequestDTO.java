@@ -1,6 +1,5 @@
 package com.ferrinsa.fairpartner.expense.dto.expense;
 
-import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpenseShareRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

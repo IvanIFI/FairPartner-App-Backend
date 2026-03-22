@@ -3,7 +3,7 @@ package com.ferrinsa.fairpartner.expense.controller;
 import com.ferrinsa.fairpartner.expense.dto.expense.*;
 import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.service.coordinator.ExpenseCoordinatorService;
-import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpensesWithBalances;
+import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;

@@ -2,7 +2,7 @@ package com.ferrinsa.fairpartner.expense.service.coordinator;
 
 import com.ferrinsa.fairpartner.expense.dto.expense.*;
 import com.ferrinsa.fairpartner.expense.model.Expense;
-import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpensesWithBalances;
+import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 
 public interface ExpenseCoordinatorService {
 

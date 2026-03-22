@@ -1,6 +1,6 @@
 package com.ferrinsa.fairpartner.expense.dto.expense;
 
-import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpensesWithBalances;
+import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 
 import java.util.List;
 
