@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Map;
+import java.util.Objects;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,9 +36,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle(TITLE_INVALID_PARAMETER);
         problemDetail.setDetail(DETAIL_INVALID_PARAMETER);
+
+        var errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> Map.of(
+                        "field", error.getField(),
+                        "message", Objects.requireNonNull(error.getDefaultMessage())
+                ))
+                .toList();
+        problemDetail.setProperty("errors", errors);
+
         return problemDetail;
     }
 

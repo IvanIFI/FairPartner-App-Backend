@@ -15,6 +15,11 @@ public class PaymentId implements Serializable {
         // Required by JPA
     }
 
+    public PaymentId(Long userId, Long expenseId) {
+        this.userId = userId;
+        this.expenseId = expenseId;
+    }
+
     public Long getUserId() {
         return userId;
     }

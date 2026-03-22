@@ -15,7 +15,7 @@ public record CreateExpenseRequestDTO(
         @NotBlank @Size(max = 20) String name,
         @Size(max = 200) String description,
         @NotNull Long payerUserId,
-        @NotNull @Size(min = 1) List<ExpenseShareRequest> expenseShares,
+        @NotNull @Size(min = 1) List<ExpenseShareRequestDTO> expenseShares,
         @NotNull @Positive BigDecimal amount
 ) {
 }

@@ -77,7 +77,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<Expense> findByDateBetween(LocalDate startDate, LocalDate endDate) {
-        return expenseRepository.findByDateBetween(startDate, endDate);
+        return expenseRepository.findByCreatedDateBetween(startDate, endDate);
     }
 
     @Override

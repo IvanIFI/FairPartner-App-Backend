@@ -16,7 +16,7 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
 
     List<Expense> findByCategoryId(Long categoryId);
 
-    List<Expense> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    List<Expense> findByCreatedDateBetween(LocalDate startDate, LocalDate endDate);
 
     List<Expense> findByAmountBetween(BigDecimal min, BigDecimal max);
 

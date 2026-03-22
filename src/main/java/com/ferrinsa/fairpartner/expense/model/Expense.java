@@ -34,7 +34,7 @@ public class Expense {
     @Column(nullable = false)
     private String name;
     private String description;
-    @Column(insertable = false, updatable = false, nullable = false)
+    @Column(name = "created_date", insertable = false, updatable = false, nullable = false)
     private LocalDate createdDate;
     @Column(nullable = false)
     private String icon;

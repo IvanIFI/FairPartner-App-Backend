@@ -87,7 +87,8 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
                 createExpenseRequestDTO.amount());
         expenseService.createExpense(expenseCreated);
 
-        this.createExpenseShares(expenseCreated, createExpenseRequestDTO.expenseShares());
+        List<ExpenseShareRequest> expenseShares = mapToExpenseShareRequest(createExpenseRequestDTO.expenseShares());
+        this.createExpenseShares(expenseCreated, expenseShares);
 
         Payment payment = new Payment(payerUser, expenseCreated, createExpenseRequestDTO.amount());
         paymentService.createPayment(payment);
@@ -152,7 +153,8 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         paymentService.createPayment(paymentUpdated);
 
         expenseShareService.deleteByExpenseId(expenseId);
-        this.createExpenseShares(expenseToUpdate, updateExpenseRequestDTO.expenseShares());
+        List<ExpenseShareRequest> expenseShares = mapToExpenseShareRequest(updateExpenseRequestDTO.expenseShares());
+        this.createExpenseShares(expenseToUpdate, expenseShares);
 
         return expenseToUpdate;
     }
@@ -197,7 +199,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
     private void validateParticipatesUsers(Long expenseGroupId,
                                            Long creatorUserId,
                                            Long payerUserId,
-                                           List<ExpenseShareRequest> usersExpenseShares) {
+                                           List<ExpenseShareRequestDTO> usersExpenseShares) {
         Set<Long> groupUserIds = participateRepository
                 .findUsersByExpenseGroupId(expenseGroupId)
                 .stream()
@@ -212,7 +214,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
             throw new UserNotMemberOfGroupException(String.valueOf(payerUserId), String.valueOf(expenseGroupId));
         }
 
-        for (ExpenseShareRequest share : usersExpenseShares) {
+        for (ExpenseShareRequestDTO share : usersExpenseShares) {
             if (!groupUserIds.contains(share.userId())) {
                 throw new UserNotMemberOfGroupException(
                         String.valueOf((share.userId())),
@@ -221,9 +223,9 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         }
     }
 
-    private void validateAmountShared(BigDecimal amount, List<ExpenseShareRequest> usersExpenseShares) {
+    private void validateAmountShared(BigDecimal amount, List<ExpenseShareRequestDTO> usersExpenseShares) {
         BigDecimal sumShared = usersExpenseShares.stream()
-                .map(ExpenseShareRequest::amount)
+                .map(ExpenseShareRequestDTO::amount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         if (sumShared.compareTo(amount) != 0) {
@@ -231,15 +233,15 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         }
     }
 
-    private void validateDuplicateUsersExpenseShare(List<ExpenseShareRequest> usersExpenseShares) {
-        long distinctIds = usersExpenseShares.stream().map(ExpenseShareRequest::userId).distinct().count();
+    private void validateDuplicateUsersExpenseShare(List<ExpenseShareRequestDTO> usersExpenseShares) {
+        long distinctIds = usersExpenseShares.stream().map(ExpenseShareRequestDTO::userId).distinct().count();
 
         if (distinctIds != usersExpenseShares.size()) {
             throw new DuplicateUsersException();
         }
     }
 
-    private void validatePayerInShares(Long payerId, List<ExpenseShareRequest> usersExpenseShares) {
+    private void validatePayerInShares(Long payerId, List<ExpenseShareRequestDTO> usersExpenseShares) {
         boolean payerIncluded = usersExpenseShares.stream()
                 .anyMatch(share -> share.userId().equals(payerId));
 
@@ -250,8 +252,8 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
 
     private void validateSingleUserCase(Long payerUserId,
                                         BigDecimal amount,
-                                        List<ExpenseShareRequest> usersExpenseShares) {
-        ExpenseShareRequest share = usersExpenseShares.get(0);
+                                        List<ExpenseShareRequestDTO> usersExpenseShares) {
+        ExpenseShareRequestDTO share = usersExpenseShares.get(0);
 
         if (!share.userId().equals(payerUserId)) {
             throw new PayerNotInSharesException();
@@ -277,6 +279,12 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
             ExpenseShare expenseShare = new ExpenseShare(user, expenseCreated, expenseShareDto.amount());
             expenseShareService.createExpenseShare(expenseShare);
         }
+    }
+
+    private List<ExpenseShareRequest> mapToExpenseShareRequest(List<ExpenseShareRequestDTO> dtoList) {
+        return dtoList.stream()
+                .map(s -> new ExpenseShareRequest(s.userId(), s.amount()))
+                .toList();
     }
 
 }

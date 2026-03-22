@@ -37,6 +37,7 @@ public class Payment {
         this.user = user;
         this.expense = expense;
         this.amount = amount;
+        this.idCompound = new PaymentId(user.getId(), expense.getId());
     }
 
     public PaymentId getIdCompound() {

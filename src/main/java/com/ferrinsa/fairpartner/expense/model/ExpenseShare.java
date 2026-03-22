@@ -37,6 +37,7 @@ public class ExpenseShare {
         this.user = user;
         this.expense = expense;
         this.amount = amount;
+        this.id = new ExpenseShareId(user.getId(), expense.getId());
     }
 
     public ExpenseShareId getId() {

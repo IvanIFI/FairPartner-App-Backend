@@ -4,8 +4,6 @@ import com.ferrinsa.fairpartner.expense.dto.expense.*;
 import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.service.coordinator.model.ExpensesWithBalances;
 
-import java.util.List;
-
 public interface ExpenseCoordinatorService {
 
 
