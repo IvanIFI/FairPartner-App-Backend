@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 
-//TODO: POSIBLE LOG EN EL REINTENTO DEL TOKEN?
 @Service
 public class InvitationServiceImpl implements InvitationService {
 
@@ -57,32 +56,27 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     @Transactional
-    public List<InvitationSummaryResponseDTO> findAllSentInvitations(Long authUserId) {
-        return invitationRepository.findByInviterUser_IdOrderByCreationDateDesc(authUserId)
-                .stream()
-                .map(inv ->
-                        {
-                            this.checkOrUpdateExpiredStatus(inv);
-                            return InvitationSummaryResponseDTO.of(inv);
-                        }
-                ).toList();
+    public List<Invitation> findAllSentInvitations(Long authUserId) {
+        List<Invitation> invitations = invitationRepository.findByInviterUser_IdOrderByCreationDateDesc(authUserId);
+        invitations.forEach(this::checkOrUpdateExpiredStatus);
+        return invitations;
     }
 
     @Override
     @Transactional
-    public InvitationDetailsResponseDTO findSentInvitationDetail(Long authUserId, Long invitationId) {
+    public Invitation findSentInvitationDetail(Long authUserId, Long invitationId) {
         Invitation invitation = invitationRepository.findById(invitationId)
                 .orElseThrow(InvitationNotFoundException::new);
 
         this.validateUserInviter(invitation, authUserId);
         this.checkOrUpdateExpiredStatus(invitation);
 
-        return InvitationDetailsResponseDTO.of(invitation);
+        return invitation;
     }
 
     @Override
     @Transactional
-    public InvitationTokenResponseDTO createInvitation(Long authUserId,
+    public Invitation createInvitation(Long authUserId,
                                                        CreateInvitationRequestDTO createInvitationRequestDTO) {
         UserEntity inviterUser = userRepository.findById(authUserId)
                 .orElseThrow(() -> new UserNotFoundException(String.valueOf(authUserId)));
@@ -110,7 +104,7 @@ public class InvitationServiceImpl implements InvitationService {
         for (int i = 0; i < 3; i++) {
             try {
                 invitationRepository.save(invitation);
-                return new InvitationTokenResponseDTO(invitation.getId(), invitation.getToken());
+                return invitation;
             } catch (DataIntegrityViolationException ex) {
                 invitation.setToken(generateToken());
             }
@@ -120,14 +114,14 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     @Transactional
-    public InvitationSummaryResponseDTO receiveInvitation(Long authUserId, String token) {
+    public Invitation receiveInvitation(Long authUserId, String token) {
         Invitation invitation = invitationRepository.findByToken(token)
                 .orElseThrow(InvitationNotFoundException::new);
 
         this.validateUserInvited(invitation, authUserId);
         this.checkOrUpdateExpiredStatus(invitation);
 
-        return InvitationSummaryResponseDTO.of(invitation);
+        return invitation;
     }
 
     @Override

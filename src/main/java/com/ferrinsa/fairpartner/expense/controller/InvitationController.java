@@ -4,6 +4,7 @@ import com.ferrinsa.fairpartner.expense.dto.invitation.CreateInvitationRequestDT
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationDetailsResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationSummaryResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.invitation.InvitationTokenResponseDTO;
+import com.ferrinsa.fairpartner.expense.model.Invitation;
 import com.ferrinsa.fairpartner.expense.service.domain.InvitationService;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.validation.Valid;
@@ -35,7 +36,8 @@ public class InvitationController {
     public ResponseEntity<InvitationSummaryResponseDTO> getInvitationToInvitedUser(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable String token) {
-        return ResponseEntity.ok(invitationService.receiveInvitation(authUser.getId(), token));
+        return ResponseEntity.ok(InvitationSummaryResponseDTO
+                .of(invitationService.receiveInvitation(authUser.getId(), token)));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -43,14 +45,18 @@ public class InvitationController {
     public ResponseEntity<InvitationDetailsResponseDTO> getInvitationDetails(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long id) {
-        return ResponseEntity.ok(invitationService.findSentInvitationDetail(authUser.getId(), id));
+        return ResponseEntity.ok(InvitationDetailsResponseDTO
+                .of(invitationService.findSentInvitationDetail(authUser.getId(), id)));
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/all")
     public ResponseEntity<List<InvitationSummaryResponseDTO>> getAllInvitationsByUser(
             @AuthenticationPrincipal UserEntity authUser) {
-        return ResponseEntity.ok(invitationService.findAllSentInvitations(authUser.getId()));
+        return ResponseEntity.ok(invitationService.findAllSentInvitations(authUser.getId())
+                .stream()
+                .map(InvitationSummaryResponseDTO::of)
+                .toList());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -58,17 +64,18 @@ public class InvitationController {
     public ResponseEntity<InvitationTokenResponseDTO> createInvitation(
             @AuthenticationPrincipal UserEntity authUser,
             @Valid @RequestBody CreateInvitationRequestDTO createInvitationRequestDTO) {
-        InvitationTokenResponseDTO invitationToken = invitationService.createInvitation(
+        Invitation invitation = invitationService.createInvitation(
                 authUser.getId(),
                 createInvitationRequestDTO
         );
+        InvitationTokenResponseDTO tokenDto = InvitationTokenResponseDTO.of(invitation);
 
         URI locationNewInvitation = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(invitationToken.id())
+                .buildAndExpand(tokenDto.id())
                 .toUri();
-        return ResponseEntity.created(locationNewInvitation).body(invitationToken);
+        return ResponseEntity.created(locationNewInvitation).body(tokenDto);
     }
 
     @PreAuthorize("isAuthenticated()")
