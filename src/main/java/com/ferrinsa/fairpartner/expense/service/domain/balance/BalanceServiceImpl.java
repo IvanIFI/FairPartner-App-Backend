@@ -64,7 +64,7 @@ public class BalanceServiceImpl implements BalanceService {
 
         BigDecimal totalAmountUser = obtainTotalAmountByUser(user.getId(), expenseGroupId);
         BigDecimal totalPaymentsUser = obtainTotalPaymentByUser(user.getId(), expenseGroupId);
-        BigDecimal balanceUser = totalAmountUser.subtract(totalPaymentsUser);
+        BigDecimal balanceUser = totalPaymentsUser.subtract(totalAmountUser);
 
         return List.of(new UserBalanceResult(user, balanceUser));
     }
@@ -84,15 +84,15 @@ public class BalanceServiceImpl implements BalanceService {
         BigDecimal totalSettlementSentUserB = obtainTotalSettlementSentByUser(userB.getId(), expenseGroupId);
         BigDecimal totalSettlementReceivedUserB = obtainTotalSettlementReceivedByUser(userB.getId(), expenseGroupId);
 
-        BigDecimal balanceUserA = totalAmountUserA.subtract(totalPaymentsUserA);
-        BigDecimal balanceUserB = totalAmountUserB.subtract(totalPaymentsUserB);
+        BigDecimal balanceUserA = totalPaymentsUserA.subtract(totalAmountUserA);
+        BigDecimal balanceUserB = totalPaymentsUserB.subtract(totalAmountUserB);
 
         BigDecimal balanceAdjustedUserA = balanceUserA
-                .add(totalSettlementReceivedUserA)
-                .subtract(totalSettlementSentUserA);
+                .add(totalSettlementSentUserA)
+                .subtract(totalSettlementReceivedUserA);
         BigDecimal balanceAdjustedUserB = balanceUserB
-                .add(totalSettlementReceivedUserB)
-                .subtract(totalSettlementSentUserB);
+                .add(totalSettlementSentUserB)
+                .subtract(totalSettlementReceivedUserB);
 
         return this.validateAndObtainBalanceResultForTwo(userA, balanceAdjustedUserA, userB, balanceAdjustedUserB);
     }

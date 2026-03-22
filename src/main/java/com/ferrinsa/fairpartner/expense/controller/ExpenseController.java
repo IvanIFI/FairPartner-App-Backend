@@ -30,7 +30,7 @@ public class ExpenseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/me/expenses")
+    @PostMapping("/me")
     public ResponseEntity<ExpenseDetailsResponseDTO> createNewExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @Valid @RequestBody CreateExpenseRequestDTO createExpenseRequestDTO) {
@@ -46,7 +46,7 @@ public class ExpenseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me/expenses/{expenseId}")
+    @GetMapping("/me/{expenseId}")
     public ResponseEntity<ExpenseDetailsResponseDTO> getExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseId) {
@@ -55,7 +55,7 @@ public class ExpenseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me/expenses/expense-group/{expenseGroupId}")
+    @GetMapping("/me/expense-group/{expenseGroupId}")
     public ResponseEntity<ExpensesWithBalancesResponseDTO> getListExpenses(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseGroupId) {
@@ -65,7 +65,7 @@ public class ExpenseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @DeleteMapping("/me/expenses/{expenseId}")
+    @DeleteMapping("/me/{expenseId}")
     public ResponseEntity<Void> deleteExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseId) {
@@ -74,7 +74,7 @@ public class ExpenseController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PatchMapping("/me/expenses/{expenseId}")
+    @PatchMapping("/me/{expenseId}")
     public ResponseEntity<ExpenseDetailsResponseDTO> updateExpense(
             @AuthenticationPrincipal UserEntity authUser,
             @PathVariable Long expenseId,

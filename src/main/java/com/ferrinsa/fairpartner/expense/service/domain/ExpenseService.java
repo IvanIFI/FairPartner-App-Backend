@@ -1,7 +1,6 @@
 package com.ferrinsa.fairpartner.expense.service.domain;
 
 import com.ferrinsa.fairpartner.expense.model.Expense;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
