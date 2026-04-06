@@ -256,6 +256,19 @@ class UserControllerTest {
 
             @Test
             @WithUserDetails(value = "ivan@example.com", userDetailsServiceBeanName = "customUserDetailsServiceTest")
+            @DisplayName("/users/me/name - when name is blank")
+            void updateName_returnBadRequest400_whenNameIsBlank() throws Exception {
+
+                mockMvc.perform(patch("/users/me/name")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                        { "name": "" }
+                    """))
+                        .andExpect(status().isBadRequest());
+            }
+
+            @Test
+            @WithUserDetails(value = "ivan@example.com", userDetailsServiceBeanName = "customUserDetailsServiceTest")
             @DisplayName("/users/me/email - when update is successful")
             void updateEmail_returnOk200_whenIsSuccessful() throws Exception {
                 when(userService.updateEmailUser(any(UserEntity.class), any(UpdateUserEmailRequestDTO.class)))

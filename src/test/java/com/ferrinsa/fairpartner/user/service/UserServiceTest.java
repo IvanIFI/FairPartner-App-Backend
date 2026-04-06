@@ -168,17 +168,6 @@ class UserServiceTest {
             verify(userRepository).findById(ID_1);
         }
 
-        //TODO: Se ha cambiado la validación en el DTO y ahora es @NotBlank lo cual hace fallar el test, revisar solución!
-        @Test
-        @DisplayName("Update name failed")
-        void updateNameUser_returnUserFailedUpdateProfileException_whenFailedUpdate() {
-            when(userRepository.findById(ID_1)).thenReturn(Optional.of(expectedUser1));
-
-            assertThrows(UserFailedUpdateProfileException.class,
-                    () -> userService.updateNameUser(expectedUser1, INVALID_UPDATE_USER_NAME_REQUEST_DTO));
-            verify(userRepository).findById(ID_1);
-        }
-
         @Test
         @DisplayName("Update email successful")
         void updateEmailUser_returnUserResponseDTO_whenSuccessfulUpdate() {
