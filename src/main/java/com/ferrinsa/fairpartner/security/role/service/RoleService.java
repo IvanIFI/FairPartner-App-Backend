@@ -22,6 +22,4 @@ public class RoleService {
                 .orElseThrow(() -> new RoleNotFoundException(roleName));
     }
 
-
-
 }

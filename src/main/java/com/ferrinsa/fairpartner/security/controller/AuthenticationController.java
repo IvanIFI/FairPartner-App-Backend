@@ -24,9 +24,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<LoginResponseDTO> registerAndLoginNewUser(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+    public ResponseEntity<LoginResponseDTO> registerAndLoginNewUser(
+            @Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         userService.registerNewUser(registerUserRequestDTO);
-        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(registerUserRequestDTO.email(), registerUserRequestDTO.password());
+        LoginRequestDTO loginRequestDTO = new LoginRequestDTO(
+                registerUserRequestDTO.email(),
+                registerUserRequestDTO.password());
 
         return loginByEmail(loginRequestDTO);
     }
