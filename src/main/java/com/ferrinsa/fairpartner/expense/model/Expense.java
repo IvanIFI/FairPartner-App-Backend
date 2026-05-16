@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -35,7 +35,7 @@ public class Expense {
     private String name;
     private String description;
     @Column(name = "created_date", insertable = false, updatable = false, nullable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
     @Column(nullable = false)
     private String icon;
     @Positive
@@ -101,11 +101,11 @@ public class Expense {
         this.description = description;
     }
 
-    public LocalDate getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDate createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

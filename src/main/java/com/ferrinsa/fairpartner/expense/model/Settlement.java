@@ -27,7 +27,7 @@ public class Settlement {
     @Positive
     @Column(nullable = false)
     private BigDecimal amount;
-    @Column(name = "create_date", insertable = false, updatable = false, nullable = false)
+    @Column(name = "created_date", insertable = false, updatable = false, nullable = false)
     private LocalDateTime createDate;
 
     public Settlement() {
