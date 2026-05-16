@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -69,26 +66,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public List<Expense> findByGroupId(Long expenseGroupId) {
         return expenseRepository.findByExpenseGroupId(expenseGroupId);
-    }
-
-    @Override
-    public List<Expense> findByName(String name) {
-        return expenseRepository.findByName(name);
-    }
-
-    @Override
-    public List<Expense> findByCategoryId(Long categoryId) {
-        return expenseRepository.findByCategoryId(categoryId);
-    }
-
-    @Override
-    public List<Expense> findByDateBetween(LocalDate startDate, LocalDate endDate) {
-        return expenseRepository.findByCreatedDateBetween(startDate, endDate);
-    }
-
-    @Override
-    public List<Expense> findByAmountBetween(BigDecimal min, BigDecimal max) {
-        return expenseRepository.findByAmountBetween(min, max);
     }
 
 }

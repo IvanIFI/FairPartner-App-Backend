@@ -5,7 +5,7 @@ import com.ferrinsa.fairpartner.expense.model.*;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TestExpenseFactory {
 
@@ -30,7 +30,7 @@ public class TestExpenseFactory {
         );
 
         expense.setId(1L);
-        expense.setCreatedDate(LocalDate.now());
+        expense.setCreatedDate(LocalDateTime.now());
 
         return expense;
     }
