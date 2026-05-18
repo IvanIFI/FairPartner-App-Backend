@@ -3,7 +3,7 @@ package com.ferrinsa.fairpartner.expense.dto.settlement;
 import com.ferrinsa.fairpartner.expense.model.Settlement;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record SettlementResponseDTO(
         Long id,
@@ -11,7 +11,7 @@ public record SettlementResponseDTO(
         SettlementUserDTO fromUserId,
         SettlementUserDTO toUserId,
         BigDecimal amount,
-        LocalDateTime createDate
+        Instant createDate
 ) {
 
     public static SettlementResponseDTO of(Settlement settlement) {

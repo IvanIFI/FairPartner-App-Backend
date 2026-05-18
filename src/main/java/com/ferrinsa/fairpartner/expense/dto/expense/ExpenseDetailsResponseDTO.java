@@ -4,7 +4,7 @@ import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 public record ExpenseDetailsResponseDTO(
@@ -15,7 +15,7 @@ public record ExpenseDetailsResponseDTO(
         String name,
         String description,
         String icon,
-        LocalDateTime createdDate,
+        Instant createdDate,
         BigDecimal amount,
         Long payerId,
         List<ExpenseShareResponseDTO> expenseShares

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -28,7 +28,7 @@ public class Settlement {
     @Column(nullable = false)
     private BigDecimal amount;
     @Column(name = "created_date", insertable = false, updatable = false, nullable = false)
-    private LocalDateTime createDate;
+    private Instant createDate;
 
     public Settlement() {
         // Required by JPA
@@ -81,11 +81,11 @@ public class Settlement {
         this.amount = amount;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Instant getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 

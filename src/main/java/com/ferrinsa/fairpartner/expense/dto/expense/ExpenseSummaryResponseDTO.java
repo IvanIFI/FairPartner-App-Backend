@@ -3,14 +3,14 @@ package com.ferrinsa.fairpartner.expense.dto.expense;
 import com.ferrinsa.fairpartner.expense.model.Expense;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record ExpenseSummaryResponseDTO(
         Long id,
         String name,
         String description,
         String icon,
-        LocalDateTime createdDate,
+        Instant createdDate,
         BigDecimal amount
 ) {
     public static ExpenseSummaryResponseDTO of(Expense expense) {
