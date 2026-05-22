@@ -13,14 +13,12 @@ import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 import com.ferrinsa.fairpartner.expense.model.ExpenseShare;
 import com.ferrinsa.fairpartner.expense.model.Payment;
-import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
-import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
+import com.ferrinsa.fairpartner.expense.service.model.*;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseGroupService;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.BalanceService;
 import com.ferrinsa.fairpartner.expense.service.domain.balance.model.UserBalanceResult;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.expense.repository.ParticipateRepository;
-import com.ferrinsa.fairpartner.expense.service.model.ExpenseShareRequest;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseService;
 import com.ferrinsa.fairpartner.expense.service.domain.ExpenseShareService;
 import com.ferrinsa.fairpartner.expense.service.domain.PaymentService;
@@ -124,9 +122,26 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         }
 
         List<Expense> expensesList = expenseService.findByGroupId(expenseGroupId);
+
+        List<ExpenseSummary> expensesSummaryList = new ArrayList<>();
+
+         for (Expense expense : expensesList ) {
+             UserEntity userPayer = paymentService.findByExpenseId(expense.getId()).getUser();
+
+             expensesSummaryList.add( new ExpenseSummary(
+                     expense.getId(),
+                     expense.getName(),
+                     expense.getDescription(),
+                     expense.getIcon(),
+                     expense.getCreatedDate(),
+                     expense.getAmount(),
+                     new PayerResponse(userPayer.getId(),userPayer.getName())));
+
+         }
+
         List<UserBalanceResult> balancesList = balanceService.obtainUsersBalance(expenseGroupId);
 
-        return new ExpensesWithBalances(expensesList, balancesList);
+        return new ExpensesWithBalances(expensesSummaryList, balancesList);
     }
 
     @Override

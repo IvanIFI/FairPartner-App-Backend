@@ -1,6 +1,7 @@
 package com.ferrinsa.fairpartner.expense.dto.expense;
 
-import com.ferrinsa.fairpartner.expense.model.Expense;
+import com.ferrinsa.fairpartner.expense.service.model.ExpenseSummary;
+import com.ferrinsa.fairpartner.expense.service.model.PayerResponse;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -11,16 +12,18 @@ public record ExpenseSummaryResponseDTO(
         String description,
         String icon,
         Instant createdDate,
-        BigDecimal amount
+        BigDecimal amount,
+        PayerResponse payer
 ) {
-    public static ExpenseSummaryResponseDTO of(Expense expense) {
+    public static ExpenseSummaryResponseDTO of(ExpenseSummary expense) {
         return new ExpenseSummaryResponseDTO(
-                expense.getId(),
-                expense.getName(),
-                expense.getDescription(),
-                expense.getIcon(),
-                expense.getCreatedDate(),
-                expense.getAmount()
+                expense.id(),
+                expense.name(),
+                expense.description(),
+                expense.icon(),
+                expense.createdDate(),
+                expense.amount(),
+                expense.payer()
         );
     }
 }

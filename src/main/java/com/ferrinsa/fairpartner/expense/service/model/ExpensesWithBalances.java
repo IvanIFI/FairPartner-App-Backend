@@ -6,6 +6,6 @@ import com.ferrinsa.fairpartner.expense.service.domain.balance.model.UserBalance
 import java.util.List;
 
 public record ExpensesWithBalances(
-        List<Expense> expenses,
+        List<ExpenseSummary> expenses,
         List<UserBalanceResult> balances) {
 }

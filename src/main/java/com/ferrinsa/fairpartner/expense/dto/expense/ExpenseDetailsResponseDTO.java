@@ -2,6 +2,7 @@ package com.ferrinsa.fairpartner.expense.dto.expense;
 
 import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
+import com.ferrinsa.fairpartner.expense.service.model.PayerResponse;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -17,7 +18,7 @@ public record ExpenseDetailsResponseDTO(
         String icon,
         Instant createdDate,
         BigDecimal amount,
-        Long payerId,
+        PayerResponse payer,
         List<ExpenseShareResponseDTO> expenseShares
 ) {
 
@@ -33,7 +34,10 @@ public record ExpenseDetailsResponseDTO(
                 expense.getIcon(),
                 expense.getCreatedDate(),
                 expense.getAmount(),
-                expenseWithSharesAndPayer.payer().getId(),
+                new PayerResponse(
+                        expenseWithSharesAndPayer.payer().getId(),
+                        expenseWithSharesAndPayer.payer().getName()
+                ),
                 expenseWithSharesAndPayer.shares().stream()
                         .map(ExpenseShareResponseDTO::of)
                         .toList()
