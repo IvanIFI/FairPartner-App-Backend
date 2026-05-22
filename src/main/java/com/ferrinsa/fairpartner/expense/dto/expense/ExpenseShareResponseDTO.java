@@ -6,14 +6,14 @@ import java.math.BigDecimal;
 
 public record ExpenseShareResponseDTO(
         Long userId,
-        String email,
+        String name,
         BigDecimal amount
 ) {
 
     public static ExpenseShareResponseDTO of(ExpenseShare expenseShare) {
         return new ExpenseShareResponseDTO(
                 expenseShare.getUser().getId(),
-                expenseShare.getUser().getEmail(),
+                expenseShare.getUser().getName(),
                 expenseShare.getAmount()
         );
     }

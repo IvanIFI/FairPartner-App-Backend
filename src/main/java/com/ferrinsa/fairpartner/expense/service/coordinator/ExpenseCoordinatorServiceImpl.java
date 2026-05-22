@@ -126,6 +126,7 @@ public class ExpenseCoordinatorServiceImpl implements ExpenseCoordinatorService 
         List<ExpenseSummary> expensesSummaryList = new ArrayList<>();
 
          for (Expense expense : expensesList ) {
+             //FIXME: N + 1 queries, pendiente de optimizar
              UserEntity userPayer = paymentService.findByExpenseId(expense.getId()).getUser();
 
              expensesSummaryList.add( new ExpenseSummary(
