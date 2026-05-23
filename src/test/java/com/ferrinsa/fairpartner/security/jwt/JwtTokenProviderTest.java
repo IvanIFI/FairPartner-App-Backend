@@ -8,7 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 import java.util.List;
 
-import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.*;
+import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.TEST_GENERATE_TOKEN_KEY;
+import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.TEST_GENERATE_TOKEN_TIME_EXPIRED;
 import static com.ferrinsa.fairpartner.user.util.UserTestFactory.buildTestUser1;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;

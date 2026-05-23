@@ -10,8 +10,6 @@ import java.util.Objects;
 @Table(name = "expense_group")
 public class ExpenseGroup {
 
-    //TODO: RECUERDA EL ATRIBUTO RESUME QUE NO SE ALMACENA SINO QUE SE CUALCULA EN LA LOGICA DE LA APLICACION
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

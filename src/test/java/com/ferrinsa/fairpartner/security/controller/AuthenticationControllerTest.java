@@ -22,16 +22,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
+import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.ROLE_USER;
 import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.ExceptionsTestConstants.*;
+import static com.ferrinsa.fairpartner.user.util.ExceptionsTestConstants.EMAIL_ALREADY_EXISTS_TITLE;
+import static com.ferrinsa.fairpartner.user.util.ExceptionsTestConstants.LOGIN_FAILED_TITLE;
 import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @Import({TestSecurityConfig.class, TestUserDetailsServiceConfig.class})
 @WebMvcTest(

@@ -29,20 +29,19 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
-import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.*;
+import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.ROLE_USER;
+import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.USER_ADMIN_RESPONSE_DTO;
+import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.USER_RESPONSE_DTO;
 import static com.ferrinsa.fairpartner.user.util.ExceptionsTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.*;
 import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
-import static org.mockito.Mockito.verify;
 
 
 @Import({TestSecurityConfig.class, TestUserDetailsServiceConfig.class})

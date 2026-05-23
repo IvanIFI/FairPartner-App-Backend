@@ -2,11 +2,14 @@
 package com.ferrinsa.fairpartner.user.service;
 
 import com.ferrinsa.fairpartner.exception.role.RoleNotFoundException;
-import com.ferrinsa.fairpartner.exception.user.*;
+import com.ferrinsa.fairpartner.exception.user.UserEmailAlreadyExistsException;
+import com.ferrinsa.fairpartner.exception.user.UserNotFoundException;
+import com.ferrinsa.fairpartner.exception.user.UserPasswordCheckException;
+import com.ferrinsa.fairpartner.exception.user.UserPasswordException;
+import com.ferrinsa.fairpartner.security.dto.RegisterUserRequestDTO;
 import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import com.ferrinsa.fairpartner.security.role.service.RoleService;
 import com.ferrinsa.fairpartner.security.role.values.UserRoles;
-import com.ferrinsa.fairpartner.security.dto.RegisterUserRequestDTO;
 import com.ferrinsa.fairpartner.user.dto.UserAdminResponseDTO;
 import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
@@ -20,12 +23,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
-import static org.mockito.ArgumentMatchers.any;
-
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -34,7 +31,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
+import static com.ferrinsa.fairpartner.user.util.DtosTestConstants.*;
+import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")

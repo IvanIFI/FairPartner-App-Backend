@@ -2,13 +2,16 @@ package com.ferrinsa.fairpartner.security.controller;
 
 import com.ferrinsa.fairpartner.security.dto.LoginRequestDTO;
 import com.ferrinsa.fairpartner.security.dto.LoginResponseDTO;
-import com.ferrinsa.fairpartner.security.service.AuthenticationService;
 import com.ferrinsa.fairpartner.security.dto.RegisterUserRequestDTO;
+import com.ferrinsa.fairpartner.security.service.AuthenticationService;
 import com.ferrinsa.fairpartner.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")

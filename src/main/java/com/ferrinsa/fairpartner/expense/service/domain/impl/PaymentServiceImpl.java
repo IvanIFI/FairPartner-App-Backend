@@ -1,10 +1,7 @@
 package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
-import com.ferrinsa.fairpartner.exception.expense.expense.ExpenseNotFoundException;
 import com.ferrinsa.fairpartner.exception.expense.payment.PaymentNotFoundException;
-import com.ferrinsa.fairpartner.expense.model.Expense;
 import com.ferrinsa.fairpartner.expense.model.Payment;
-import com.ferrinsa.fairpartner.expense.repository.ExpenseRepository;
 import com.ferrinsa.fairpartner.expense.repository.PaymentRepository;
 import com.ferrinsa.fairpartner.expense.service.domain.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,9 +3,9 @@ package com.ferrinsa.fairpartner.security;
 import com.ferrinsa.fairpartner.security.role.model.RoleEntity;
 import com.ferrinsa.fairpartner.security.role.repository.RoleRepository;
 import com.ferrinsa.fairpartner.security.role.values.UserRoles;
+import com.ferrinsa.fairpartner.security.util.UserTestSecurityFactory;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.user.repository.UserRepository;
-import com.ferrinsa.fairpartner.security.util.UserTestSecurityFactory;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +22,13 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Set;
 
-import static com.ferrinsa.fairpartner.security.util.EntryPointTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.*;
-import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static com.ferrinsa.fairpartner.security.util.EntryPointTestConstants.ENTRY_POINT_DETAIL;
+import static com.ferrinsa.fairpartner.security.util.EntryPointTestConstants.ENTRY_POINT_TITLE;
+import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.VALID_LOGIN_ADMIN_JSON;
+import static com.ferrinsa.fairpartner.user.util.JsonTestConstants.VALID_LOGIN_USER_JSON;
+import static com.ferrinsa.fairpartner.user.util.UserTestConstants.EMAIL_1;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

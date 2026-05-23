@@ -7,8 +7,9 @@ import com.ferrinsa.fairpartner.user.dto.*;
 
 import java.util.List;
 
-import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.*;
-import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.*;
+import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.ADMIN_ROLE_LIST;
+import static com.ferrinsa.fairpartner.security.util.RolesTestConstants.DEFAULT_ROLE_LIST;
+import static com.ferrinsa.fairpartner.security.util.TokenTestConstants.FAKE_TOKEN;
 import static com.ferrinsa.fairpartner.user.util.UserTestConstants.*;
 
 

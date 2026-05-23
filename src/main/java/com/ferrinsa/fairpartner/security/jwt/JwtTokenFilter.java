@@ -1,7 +1,7 @@
 package com.ferrinsa.fairpartner.security.jwt;
 
-import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.security.service.CustomUserDetailsService;
+import com.ferrinsa.fairpartner.user.model.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,5 @@
 package com.ferrinsa.fairpartner.exception.expense.payment;
 
-import com.ferrinsa.fairpartner.exception.expense.expense.ExpenseNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;

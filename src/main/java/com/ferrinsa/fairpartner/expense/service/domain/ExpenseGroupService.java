@@ -4,7 +4,6 @@ import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestD
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;
 
-
 import java.util.List;
 
 public interface ExpenseGroupService {

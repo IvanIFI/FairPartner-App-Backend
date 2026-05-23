@@ -1,6 +1,7 @@
 package com.ferrinsa.fairpartner.expense.service.coordinator;
 
-import com.ferrinsa.fairpartner.expense.dto.expense.*;
+import com.ferrinsa.fairpartner.expense.dto.expense.CreateExpenseRequestDTO;
+import com.ferrinsa.fairpartner.expense.dto.expense.UpdateExpenseRequestDTO;
 import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
 

@@ -1,6 +1,5 @@
 package com.ferrinsa.fairpartner.exception.balance;
 
-import com.ferrinsa.fairpartner.exception.expenseshare.ExpenseShareIntegrityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;

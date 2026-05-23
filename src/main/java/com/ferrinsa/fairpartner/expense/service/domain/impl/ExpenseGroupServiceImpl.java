@@ -2,7 +2,6 @@ package com.ferrinsa.fairpartner.expense.service.domain.impl;
 
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupAccessDeniedException;
 import com.ferrinsa.fairpartner.exception.expense.expensegroup.ExpenseGroupNotFoundException;
-import com.ferrinsa.fairpartner.expense.dto.expensegroup.ExpenseGroupResponseDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.NewExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.dto.expensegroup.UpdateExpenseGroupRequestDTO;
 import com.ferrinsa.fairpartner.expense.model.ExpenseGroup;

@@ -1,6 +1,9 @@
 package com.ferrinsa.fairpartner.user.controller;
 
-import com.ferrinsa.fairpartner.user.dto.*;
+import com.ferrinsa.fairpartner.user.dto.UpdateUserEmailRequestDTO;
+import com.ferrinsa.fairpartner.user.dto.UpdateUserNameRequestDTO;
+import com.ferrinsa.fairpartner.user.dto.UpdateUserPasswordRequestDTO;
+import com.ferrinsa.fairpartner.user.dto.UserResponseDTO;
 import com.ferrinsa.fairpartner.user.model.UserEntity;
 import com.ferrinsa.fairpartner.user.service.UserService;
 import jakarta.validation.Valid;

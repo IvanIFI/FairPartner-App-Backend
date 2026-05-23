@@ -1,18 +1,18 @@
 package com.ferrinsa.fairpartner.expense.controller;
 
 import com.ferrinsa.fairpartner.exception.expense.expense.ExpenseNotFoundException;
-import com.ferrinsa.fairpartner.security.config.TestSecurityConfig;
-import com.ferrinsa.fairpartner.security.config.TestUserDetailsServiceConfig;
-import com.ferrinsa.fairpartner.security.jwt.JwtTokenFilter;
 import com.ferrinsa.fairpartner.expense.service.coordinator.ExpenseCoordinatorService;
 import com.ferrinsa.fairpartner.expense.service.model.ExpenseWithSharesAndPayer;
 import com.ferrinsa.fairpartner.expense.service.model.ExpensesWithBalances;
+import com.ferrinsa.fairpartner.security.config.TestSecurityConfig;
+import com.ferrinsa.fairpartner.security.config.TestUserDetailsServiceConfig;
+import com.ferrinsa.fairpartner.security.jwt.JwtTokenFilter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
@@ -23,10 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
