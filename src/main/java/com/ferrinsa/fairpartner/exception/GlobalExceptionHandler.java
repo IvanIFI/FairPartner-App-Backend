@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     private static final String DETAIL_USER_NOT_FOUND = "No se ha encontrado el usuario: ";
 
     private static final String TITLE_CONSTRAINT_VIOLATION = "Constraint violation";
-    private static final String DETAIL_CONSTRAINT_VIOLATION = "Ya existe un recurso con los datos proporcionados";
+    private static final String DETAIL_CONSTRAINT_VIOLATION = "No se pudo completar la operación porque existen datos relacionados.";
 
     private static final String TITLE_ILLEGAL_ARGUMENT = "Illegal Argument";
     private static final String DETAIL_ILLEGAL_ARGUMENT = "Ha ocurrido un error con un parámetro";
