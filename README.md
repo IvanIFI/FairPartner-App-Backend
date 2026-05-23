@@ -174,9 +174,9 @@ Variables mínimas requeridas:
 
 ```
 DB_URL=jdbc:mysql://localhost:3306/fairpartner_db?serverTimezone=UTC
-DB_USER=usuario
+DB_USERNAME=usuario
 DB_PASSWORD=contraseña
-JWT_SECRET=clave_secreta_segura
+KEY_SECRET=clave_secreta_segura
 ```
 
 La ausencia de estas variables impedirá el arranque de la aplicación.
