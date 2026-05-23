@@ -71,8 +71,8 @@ class ExpenseControllerTest {
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(1))
-                    .andExpect(jsonPath("$.payerId").value(1))
-                    .andExpect(jsonPath("$.expenseShares", hasSize(1)));
+                    .andExpect(jsonPath("$.payer.id").value(1))
+                    .andExpect(jsonPath("$.payer.name").value("Ivan"));
 
             verify(expenseCoordinatorService).getExpenseDetails(1L, 1L);
         }
