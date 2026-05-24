@@ -2,7 +2,7 @@
 
 ### Diagrama
 <figure align="center">
-  <img src="../docs/images/db-conceptual-diagram.png" width="1000" />
+  <img src="../docs/images/db-conceptual-diagram.jpg" width="1000" />
 </figure>
 
 ---
