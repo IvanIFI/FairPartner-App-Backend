@@ -1,0 +1,336 @@
+{
+    "info": {
+        "_postman_id": "expensegroupactions-clean",
+        "name": "FairPartner - ExpenseGroupActions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "ExpenseGroupActions",
+            "item": [
+                {
+                    "name": "CreateGroup",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTEzNDk5LCJleHAiOjE3NzQxOTk4OTksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiJdfQ.1fl6S06HHjgNcdWIL4qBSIJ5k7sTbvIx75H87VXTnoVc7XhvwNwvhTsJbOgEw-Mj",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"Grupo 3\",\r\n    \"description\": \"Esto es un grupo de prueba\",\r\n    \"icon\" : \"icon\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdateGroup",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxMjYwNjQ5LCJleHAiOjE3NzEzNDcwNDksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.gBJx9qKN5LWgujFkY30DrCAHixB-vSfhgDefZTIa0RKhx5fFukbjpq4uDrC8etku",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"Grupo 1\",\r\n    \"icon\" : \"icon2\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups/26",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups",
+                                "26"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "BadUpdateGroup",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxMjYwNjQ5LCJleHAiOjE3NzEzNDcwNDksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.gBJx9qKN5LWgujFkY30DrCAHixB-vSfhgDefZTIa0RKhx5fFukbjpq4uDrC8etku",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"Grupo 1\",\r\n    \"description\": \"\",\r\n    \"icon\" : \"icon2\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups/26",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups",
+                                "26"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UserGroups",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxMjYwNjQ5LCJleHAiOjE3NzEzNDcwNDksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.gBJx9qKN5LWgujFkY30DrCAHixB-vSfhgDefZTIa0RKhx5fFukbjpq4uDrC8etku",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GroupById",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxMjYwNjQ5LCJleHAiOjE3NzEzNDcwNDksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.gBJx9qKN5LWgujFkY30DrCAHixB-vSfhgDefZTIa0RKhx5fFukbjpq4uDrC8etku",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups/26",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups",
+                                "26"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DeleteGroup",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxMjYwNjQ5LCJleHAiOjE3NzEzNDcwNDksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.gBJx9qKN5LWgujFkY30DrCAHixB-vSfhgDefZTIa0RKhx5fFukbjpq4uDrC8etku",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expense-groups/me/groups/26",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expense-groups",
+                                "me",
+                                "groups",
+                                "26"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

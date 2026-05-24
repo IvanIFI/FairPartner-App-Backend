@@ -1,0 +1,280 @@
+{
+    "info": {
+        "_postman_id": "settlementactions-clean",
+        "name": "FairPartner - SettlementActions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "SettlementActions",
+            "item": [
+                {
+                    "name": "CreateSettlement",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"expenseGroupId\": 3,\r\n  \"toUserId\": 1,\r\n  \"amount\": 50.00\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/settlements/me",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "settlements",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "SettlementById",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/settlements/me/17",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "settlements",
+                                "me",
+                                "17"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "SettlementListByGroupId",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/settlements/me/group/3",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "settlements",
+                                "me",
+                                "group",
+                                "3"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdateSettlement",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"amount\": 50.00\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/settlements/me/17",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "settlements",
+                                "me",
+                                "17"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DeleteSettlement",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/settlements/me/8",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "settlements",
+                                "me",
+                                "8"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

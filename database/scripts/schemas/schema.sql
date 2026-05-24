@@ -74,67 +74,46 @@ CREATE TABLE expense (
   id BIGINT AUTO_INCREMENT,
   id_expense_group BIGINT NOT NULL,
   id_category BIGINT NOT NULL,
-  id_user BIGINT NOT NULL,
+  created_by_user_id BIGINT NOT NULL,
   name VARCHAR(20) NOT NULL,
   description VARCHAR(200),
-  date DATE NOT NULL DEFAULT (CURRENT_DATE),
+  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   icon VARCHAR(300) NOT NULL,
-  cant DECIMAL(10,2) NOT NULL CHECK (cant > 0),
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
   PRIMARY KEY (id),
-  CONSTRAINT expense_expense_group_fk FOREIGN KEY (id_expense_group) REFERENCES expense_group(id),
+  CONSTRAINT expense_expense_group_fk FOREIGN KEY (id_expense_group) REFERENCES expense_group(id) ON DELETE CASCADE,
   CONSTRAINT expense_category_fk FOREIGN KEY (id_category) REFERENCES category(id),
-  CONSTRAINT expense_user_fk FOREIGN KEY (id_user) REFERENCES users(id)
+  CONSTRAINT expense_user_fk FOREIGN KEY (created_by_user_id) REFERENCES users(id)
 );
 
 
 CREATE TABLE payment(
   id_user BIGINT NOT NULL,
   id_expense BIGINT NOT NULL,
-  cant DECIMAL(10,2) NOT NULL CHECK (cant > 0),
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
   PRIMARY KEY (id_user, id_expense),
   CONSTRAINT payment_user_fk FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
   CONSTRAINT payment_expense_fk FOREIGN KEY (id_expense) REFERENCES expense(id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE pantry (
-  id BIGINT AUTO_INCREMENT,
-  description VARCHAR(200) NOT NULL,
-  icon VARCHAR(300) NOT NULL,
-  PRIMARY KEY (id)
-);
-
-
-CREATE TABLE share (
+CREATE TABLE expense_share(
   id_user BIGINT NOT NULL,
-  id_pantry BIGINT NOT NULL,
-  PRIMARY KEY (id_user, id_pantry),
-  CONSTRAINT share_user_fk FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
-  CONSTRAINT share_pantry_fk FOREIGN KEY (id_pantry) REFERENCES pantry(id) ON DELETE CASCADE  
+  id_expense BIGINT NOT NULL,
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+  PRIMARY KEY (id_user, id_expense),
+  CONSTRAINT exp_shared_user_fk FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT exp_shared_expense_fk FOREIGN KEY (id_expense) REFERENCES expense(id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE shopping_list (
+CREATE TABLE settlement(
   id BIGINT AUTO_INCREMENT,
-  id_pantry BIGINT NOT NULL,
-  name VARCHAR(20) NOT NULL,
+  id_expense_group BIGINT NOT NULL,
+  from_id_user BIGINT NOT NULL,
+  to_id_user BIGINT NOT NULL,
+  amount DECIMAL(10,2) NOT NULL CHECK (amount > 0),
+  created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  CONSTRAINT shopping_list_pantry_fk FOREIGN KEY (id_pantry) REFERENCES pantry(id)  
-);
-
-
-CREATE TABLE product (
-  id BIGINT AUTO_INCREMENT,
-  id_pantry BIGINT NOT NULL,
-  id_category BIGINT NOT NULL,
-  id_shopping_list BIGINT,
-  name VARCHAR(50) NOT NULL,
-  description VARCHAR(200),
-  icon VARCHAR(300) NOT NULL,
-  cant INT NOT NULL CHECK (cant >= 0),
-  expiration_date DATE,
-  PRIMARY KEY (id),
-  CONSTRAINT product_pantry_fk FOREIGN KEY (id_pantry) REFERENCES pantry(id),
-  CONSTRAINT product_category_fk FOREIGN KEY (id_category) REFERENCES category(id),
-  CONSTRAINT product_shopping_list_fk FOREIGN KEY (id_shopping_list) REFERENCES shopping_list(id)
+  CONSTRAINT settlement_from_user_fk FOREIGN KEY (from_id_user) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT settlement_to_user_fk FOREIGN KEY (to_id_user) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT settlement_expense_group_fk FOREIGN KEY (id_expense_group) REFERENCES expense_group(id) ON DELETE CASCADE
 );

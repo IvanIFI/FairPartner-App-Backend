@@ -1,0 +1,200 @@
+{
+    "info": {
+        "_postman_id": "useractions-clean",
+        "name": "FairPartner - UserActions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "UserActions",
+            "item": [
+                {
+                    "name": "Me",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzcxNTE3NjIyLCJleHAiOjE3NzE2MDQwMjIsIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0.PlPrCctaKODvtpivkUKHPZgy-TGgbsboGlkv9RacmaHudzPOLMs6Qt7xhXhlMfLi",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "",
+                                "value": "",
+                                "type": "default",
+                                "disabled": true
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/me",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdateName",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzU4MDEzMDczLCJleHAiOjE3NTgwOTk0NzMsIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0.HIsf_nM6hRd6nrhWEk_gK1AexORg0aHz0oY4c6WqnU4iqPNC8HTPcU6fKFWzVJyQ",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "default"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "default"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"name\": \"nora\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/me/name",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "me",
+                                "name"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdatePassword",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzU4MDEzMDczLCJleHAiOjE3NTgwOTk0NzMsIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0.HIsf_nM6hRd6nrhWEk_gK1AexORg0aHz0oY4c6WqnU4iqPNC8HTPcU6fKFWzVJyQ",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "default"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "default"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"oldPassword\": \"Xyz7890@\",\r\n    \"newPassword\": \"Abcd1234!\",\r\n    \"confirmNewPassword\": \"Abcd1234!\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/me/password",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "me",
+                                "password"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdateEmail",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzU4MDEzMDczLCJleHAiOjE3NTgwOTk0NzMsIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0.HIsf_nM6hRd6nrhWEk_gK1AexORg0aHz0oY4c6WqnU4iqPNC8HTPcU6fKFWzVJyQ",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "default"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "default"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\":\"nora@example.com\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/me/email",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "me",
+                                "email"
+                            ],
+                            "query": [
+                                {
+                                    "key": "",
+                                    "value": "",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,393 @@
+{
+    "info": {
+        "_postman_id": "invitationactions-clean",
+        "name": "FairPartner - InvitationActions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "InvitationActions",
+            "item": [
+                {
+                    "name": "CreateInvitation",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTEzNDk5LCJleHAiOjE3NzQxOTk4OTksIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiJdfQ.1fl6S06HHjgNcdWIL4qBSIJ5k7sTbvIx75H87VXTnoVc7XhvwNwvhTsJbOgEw-Mj",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"expenseGroupId\": 1,\r\n  \"email\": \"nora@example.com\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "AcceptInvitation",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/receive/vDaOJeKTHLyjCDmMwTbKyITmn8PSbSQzOFqaMYRZtvc/accept",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "receive",
+                                "vDaOJeKTHLyjCDmMwTbKyITmn8PSbSQzOFqaMYRZtvc",
+                                "accept"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "RejectInvitation",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/receive/Lnx_sPijvMJ7YjoV_e_vI3IykgHiLnSZT4KWJdJ11Qs/reject",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "receive",
+                                "Lnx_sPijvMJ7YjoV_e_vI3IykgHiLnSZT4KWJdJ11Qs",
+                                "reject"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "CancelInvitationByInviter",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxNTE2NjM3LCJleHAiOjE3NzE2MDMwMzcsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.8Uoy5xfcCme7ISPTBSlRBmENteAfalSQbwYxBqz43-Vh-K7oxFS1a8xxRFxmgp4t",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/sent/3/cancel",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "sent",
+                                "3",
+                                "cancel"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ListInvitationsSent",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxNTE2NjM3LCJleHAiOjE3NzE2MDMwMzcsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.8Uoy5xfcCme7ISPTBSlRBmENteAfalSQbwYxBqz43-Vh-K7oxFS1a8xxRFxmgp4t",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/all",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "all"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "InvitationDetailSent",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzcxNTE2NjM3LCJleHAiOjE3NzE2MDMwMzcsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.8Uoy5xfcCme7ISPTBSlRBmENteAfalSQbwYxBqz43-Vh-K7oxFS1a8xxRFxmgp4t",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ReceiveToken",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzc0MTEzOTA5LCJleHAiOjE3NzQyMDAzMDksIm5hbWUiOiJFdmEgQ2FuZGVsYXMiLCJlbWFpbCI6ImV2YUBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXX0._0uxcuB5UkxWX8J5YW337SIljdkYmHvmf47tcS01UG4fhlkJ0vplavNjgj_nd5yC",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/me/invitations/receive/vDaOJeKTHLyjCDmMwTbKyITmn8PSbSQzOFqaMYRZtvc",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "me",
+                                "invitations",
+                                "receive",
+                                "vDaOJeKTHLyjCDmMwTbKyITmn8PSbSQzOFqaMYRZtvc"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

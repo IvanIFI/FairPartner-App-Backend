@@ -1,0 +1,280 @@
+{
+    "info": {
+        "_postman_id": "expenseactions-clean",
+        "name": "FairPartner - ExpenseActions",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "ExpenseActions",
+            "item": [
+                {
+                    "name": "CreateExpense",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"expenseGroupId\": 3,\r\n  \"categoryId\": 1,\r\n  \"name\": \"Ikea\",\r\n  \"description\": \"Muebles casa\",\r\n  \"amount\": 120.00,\r\n  \"payerUserId\": 1,\r\n  \"expenseShares\": [\r\n    { \"userId\": 1, \"amount\": 70.00 },\r\n    { \"userId\": 2, \"amount\": 50.00 }\r\n  ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expenses/me",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expenses",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "UpdateExpense",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"categoryId\": 1,\r\n  \"name\": \"Supermercado actua\",\r\n  \"description\": \"Compra semanal extras\",\r\n  \"amount\": 75.00,\r\n  \"payerUserId\": 2,\r\n  \"expenseShares\": [\r\n    {\r\n      \"userId\": 1,\r\n      \"amount\": 5.00\r\n    },\r\n    {\r\n      \"userId\": 2,\r\n      \"amount\": 70.00\r\n    }\r\n  ]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expenses/me/11",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expenses",
+                                "me",
+                                "11"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ExpenseById",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expenses/me/38",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expenses",
+                                "me",
+                                "38"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ExpenseListAndBalance",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTk5OTQxLCJleHAiOjE3NzQyODYzNDEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.uDTmk6O2Sv8iBvABW-p3siJHBySokAvo5YkwafTNhWoEnJbC3jkwAkpTEpKszFas",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expenses/me/expense-group/3",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expenses",
+                                "me",
+                                "expense-group",
+                                "3"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "DeleteExpense",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzc0MTEyODcxLCJleHAiOjE3NzQxOTkyNzEsIm5hbWUiOiJpdmFuIiwiZW1haWwiOiJpdmFuQGV4YW1wbGUuY29tIiwicm9sZXMiOlsiVVNFUiIsIkFETUlOIl19.KdzMSq0Qxl9B4F92zNTR1tJ6nO1x_Apan9cJ5p3xNTMcoikBmhPzlimHbgdau4Qm",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/expenses/me/13",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "expenses",
+                                "me",
+                                "13"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
