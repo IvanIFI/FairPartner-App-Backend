@@ -150,13 +150,16 @@ La documentación se genera automáticamente a partir de los controladores y mod
 
 La documentación técnica se encuentra en:
 
-[docs/database](docs/database)
+[Database documentation](database)
 
 Incluye:
 
 - Modelo conceptual.
 - Modelo lógico.
-- Scripts SQL.
+- Scripts SQL de creación.
+- Configuración SQL.
+- Consultas de ejemplo.
+- Colecciones Postman para testing manual.
 - Script específico para entorno de pruebas con H2.
 
 Base de datos principal: **MySQL**  
